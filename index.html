@@ -45,7 +45,7 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 .pill strong { color:var(--gold); font-size:0.88rem; }
 
 /* ══ STATUS BAR ══════════════════════════════════════════ */
-.status-bar { background:var(--green-deep); border-bottom:1px solid rgba(242,197,92,0.15); padding:7px 20px; display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap; }
+.status-bar { background:rgba(0,56,41,0.5); border-bottom:1px solid rgba(242,197,92,0.15); padding:7px 20px; display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap; position:relative; z-index:2; }
 .s-item { font-size:0.76rem; color:rgba(255,255,255,0.7); font-family:Arial,sans-serif; display:flex; align-items:center; gap:5px; }
 .dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
 .dot.live  { background:#4CAF50; box-shadow:0 0 7px #4CAF50; animation:blink 1.5s infinite; }
@@ -61,7 +61,7 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 .refresh-btn:disabled { opacity:0.4; cursor:not-allowed; }
 
 /* ══ TAB NAV ═════════════════════════════════════════════ */
-.tab-nav { background:var(--green-dark); border-bottom:2px solid var(--gold); display:flex; justify-content:center; }
+.tab-nav { background:rgba(0,30,20,0.6); border-bottom:2px solid var(--gold); display:flex; justify-content:center; position:relative; z-index:2; }
 .tab-btn { padding:13px 28px; font-size:0.82rem; font-family:Arial,sans-serif; color:rgba(255,255,255,0.6); cursor:pointer; border:none; background:transparent; border-bottom:3px solid transparent; margin-bottom:-2px; transition:all 0.2s; letter-spacing:0.5px; }
 .tab-btn:hover { color:rgba(255,255,255,0.9); }
 .tab-btn.active { color:var(--gold); border-bottom-color:var(--gold); font-weight:600; }
@@ -200,22 +200,22 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
         <div class="pill">Format <strong>23 picks · 22 score</strong></div>
       </div>
     </div>
+
+  <!-- STATUS BAR -->
+  <div class="status-bar">
+    <div class="s-item"><span class="dot" id="espn-dot"></span><span id="espn-txt">Connecting…</span></div>
+    <div class="s-item"><span class="dot" id="sheet-dot"></span><span id="sheet-txt">Sheet: —</span></div>
+    <div class="s-item" id="last-updated"></div>
+    <button class="refresh-btn" id="refresh-btn" onclick="doRefresh()">↻ Refresh</button>
   </div>
-</div>
 
-<!-- STATUS BAR -->
-<div class="status-bar">
-  <div class="s-item"><span class="dot" id="espn-dot"></span><span id="espn-txt">Connecting…</span></div>
-  <div class="s-item"><span class="dot" id="sheet-dot"></span><span id="sheet-txt">Sheet: —</span></div>
-  <div class="s-item" id="last-updated"></div>
-  <button class="refresh-btn" id="refresh-btn" onclick="doRefresh()">↻ Refresh</button>
-</div>
-
-<!-- TABS -->
-<div class="tab-nav">
-  <button class="tab-btn active" id="tbtn-standings" onclick="showTab('standings',this)">🏆 Standings</button>
-  <button class="tab-btn" id="tbtn-signup" onclick="showTab('signup',this)">📝 Enter Picks</button>
-  <button class="tab-btn" id="tbtn-odds" onclick="showTab('odds',this)">🎯 Field &amp; Odds</button>
+  <!-- TABS -->
+  <div class="tab-nav">
+    <button class="tab-btn active" id="tbtn-standings" onclick="showTab('standings',this)">🏆 Standings</button>
+    <button class="tab-btn" id="tbtn-signup" onclick="showTab('signup',this)">📝 Enter Picks</button>
+    <button class="tab-btn" id="tbtn-odds" onclick="showTab('odds',this)">🎯 Field &amp; Odds</button>
+  </div>
+  </div>
 </div>
 
 <!-- ══ TAB: STANDINGS ════════════════════════════════════ -->
