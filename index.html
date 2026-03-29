@@ -258,7 +258,7 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 <!-- ══ TAB: FIELD & ODDS ═════════════════════════════════ -->
 <div class="tab-panel" id="tab-odds">
 <div class="wrap">
-  <div class="sec-lbl">2026 Masters Field — Odds to Win (as of March 28, 2026)</div>
+  <div class="sec-lbl" id="odds-label">2026 Masters Field — Odds to Win</div>
   <div class="odds-controls">
     <input class="odds-search" type="text" id="odds-search" placeholder="Search player…" oninput="renderOdds()">
     <select class="odds-sort" id="odds-sort" onchange="renderOdds()">
@@ -295,9 +295,14 @@ const FORCE_REVEAL = false;  // set true to bypass lock for testing
 const PARTICIPANTS = [];
 
 // ════════════════════════════════════════════════════════
-// Odds (American format) — March 28, 2026
+// Odds — Polymarket live + hardcoded fallback
 // ════════════════════════════════════════════════════════
-const ODDS = {
+const POLYMARKET_SLUG = '2026-masters-winner';
+const GAMMA_API = 'https://gamma-api.polymarket.com';
+let oddsSource = 'static';  // 'static' | 'polymarket'
+
+// Fallback odds (American format) — March 28, 2026
+const FALLBACK_ODDS = {
   "Scottie Scheffler":"+400","Rory McIlroy":"+1000","Bryson DeChambeau":"+1200",
   "Jon Rahm":"+1200","Xander Schauffele":"+1600","Ludvig Åberg":"+1600",
   "Collin Morikawa":"+2000","Viktor Hovland":"+2000","Tommy Fleetwood":"+2200",
@@ -330,7 +335,47 @@ const ODDS = {
   "José María Olazábal":"+100000","Fred Couples":"+100000","Vijay Singh":"+100000",
   "Ángel Cabrera":"+100000","Mike Weir":"+100000"
 };
-function oddsColor(o){ const n=parseInt(o); if(n<=1200)return'odds-fav'; if(n<=5000)return'odds-mid'; if(n<=20000)return'odds-long'; return'odds-field'; }
+let ODDS = {...FALLBACK_ODDS};
+
+// Convert decimal probability to American odds string
+function probToAmerican(p){
+  if(!p||p<=0||p>=1)return'+99999';
+  // American odds: underdog (p<0.5) = +((1/p - 1) * 100), favorite (p>=0.5) = -(p/(1-p) * 100)
+  if(p>=0.5){const v=Math.round((p/(1-p))*100);return'-'+v;}
+  const v=Math.round(((1-p)/p)*100);return'+'+v;
+}
+
+async function fetchPolymarket(){
+  const urls=[
+    `${GAMMA_API}/events?slug=${POLYMARKET_SLUG}`,
+    `https://corsproxy.io/?url=${encodeURIComponent(`${GAMMA_API}/events?slug=${POLYMARKET_SLUG}`)}`
+  ];
+  for(const url of urls){
+    try{
+      const r=await fetch(url,{cache:'no-store'});if(!r.ok)continue;
+      const data=await r.json();
+      if(!Array.isArray(data)||data.length===0)continue;
+      const evt=data[0];
+      if(!evt.markets||evt.markets.length===0)continue;
+      const newOdds={};
+      for(const m of evt.markets){
+        const name=m.groupItemTitle;
+        if(!name||name==='Other'||m.negRiskOther)continue;
+        const prices=JSON.parse(m.outcomePrices||'[]');
+        const prob=parseFloat(prices[0])||0;
+        if(prob>0)newOdds[name]=probToAmerican(prob);
+      }
+      if(Object.keys(newOdds).length>5){
+        ODDS=newOdds;oddsSource='polymarket';
+        console.log(`[Masters Pool] Polymarket odds loaded: ${Object.keys(newOdds).length} golfers`);
+        return true;
+      }
+    }catch(e){continue;}
+  }
+  return false;
+}
+
+function oddsColor(o){ const n=parseInt(o); if(isNaN(n))return'odds-field'; if(Math.abs(n)<=1200)return'odds-fav'; if(Math.abs(n)<=5000)return'odds-mid'; if(Math.abs(n)<=20000)return'odds-long'; return'odds-field'; }
 
 // ════════════════════════════════════════════════════════
 // State
@@ -346,6 +391,20 @@ function showTab(name,btn){
   if(name==='odds') renderOdds();
 }
 
+// ── Name normalization ───────────────────────────────────
+const normName=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+const nameMap={};
+function buildNameMap(){for(const k of Object.keys(scores))nameMap[normName(k)]=k;}
+function resolveName(n){return nameMap[normName(n)]||n;}
+function warnUnmatched(){
+  if(!hasScores())return;
+  for(const p of liveParts){
+    for(const g of [p.winner,p.alternate,...p.picks]){
+      if(g&&!scores[g]&&!scores[resolveName(g)])console.warn(`[Masters Pool] No ESPN match for pick: "${g}"`);
+    }
+  }
+}
+
 // ── Score helpers ────────────────────────────────────────
 function fmt(v){
   if(v===null||v===undefined) return '<span class="sna">—</span>';
@@ -357,9 +416,11 @@ function fmt(v){
   if(s==='E') return '<span class="se">E</span>';
   return`<span class="se">${v}</span>`;
 }
-const isWD=n=>{const s=scores[n];return s&&(s.st==='WD'||String(s.tp).toUpperCase()==='WD');};
-const isCut=n=>{const s=scores[n];const v=s?String(s.tp).toUpperCase():'';return s&&(v==='CUT'||v==='MC');};
-function num(n){const s=scores[n];if(!s||isWD(n)||isCut(n))return 0;const v=parseInt(s.tp);return isNaN(v)?0:v;}
+function getScore(n){return scores[n]||scores[resolveName(n)]||null;}
+const isWD=n=>{const s=getScore(n);return s&&(s.st==='WD'||String(s.tp).toUpperCase()==='WD');};
+const isCut=n=>{const s=getScore(n);return s&&s.st==='CUT';};
+function fmtGolfer(n){if(!hasScores())return'—';const s=getScore(n);if(!s)return'<span class="sna">—</span>';let out=fmt(s.tp);if(isCut(n))out+=' <span class="scut">CUT</span>';return out;}
+function num(n){const s=getScore(n);if(!s||isWD(n))return 0;const v=parseInt(s.tp);return isNaN(v)?0:v;}
 function calcTeam(p){const sc=[p.winner,...p.picks];let t=0,ua=false;for(const g of sc){if(isWD(g)&&!ua){t+=num(p.alternate);ua=true;}else t+=num(g);}return{t,ua};}
 const hasScores=()=>Object.keys(scores).length>0;
 
@@ -388,10 +449,10 @@ function parseESPN(data){
     else if(detail.includes('MISSED CUT')||detail.includes('CUT'))st2='CUT';
     let tp=c.statistics?.find(s=>s.name==='scoreToPar')?.displayValue??null;
     if(tp===null)tp=c.score?.displayValue??c.score?.value??null;
-    if(st2)tp=st2;
+    if(st2==='WD')tp=st2;
     ns[name]={tp,st:st2,thru:c.status?.type?.shortDetail||''};
   }
-  if(Object.keys(ns).length>0)scores=ns;
+  if(Object.keys(ns).length>0){scores=ns;buildNameMap();}
 }
 function loadDemo(){
   const pl=["Scottie Scheffler","Rory McIlroy","Collin Morikawa","Viktor Hovland","Justin Thomas","Brooks Koepka","Jon Rahm","Xander Schauffele","Hideki Matsuyama","Jordan Spieth","Tommy Fleetwood","Shane Lowry","Patrick Cantlay","Sam Burns","Tyrrell Hatton","Russell Henley","Ludvig Åberg","Bryson DeChambeau","Wyndham Clark","Cameron Young","Adam Scott","Max Homa","Matt Fitzpatrick"];
@@ -417,9 +478,23 @@ async function fetchSheet(){
     const url=SHEET_CSV_URL+(SHEET_CSV_URL.includes('?')?'&':'?')+'_t='+Date.now();
     const r=await fetch(url,{cache:'no-store'});if(!r.ok)return false;
     const rows=parseCSV(await r.text());if(rows.length<2)return false;
-    // Public Picks tab columns: [0]=Name [1]=Winner Pick [2]=Alternate Pick [3..23]=Pick 1-21
-    // (No timestamp, no email — safe to publish)
-    const parsed=rows.slice(1).filter(r=>r[0]&&r[1]).map(r=>({name:r[0],winner:r[1],alternate:r[2]||'',picks:r.slice(3,24).filter(Boolean)})).filter(p=>p.picks.length>0);
+    // Form Responses columns: [0]=Timestamp [1]=Email [2]=Name [3]=Winner [4]=Alternate [5]=Picks (comma-separated multi-select)
+    // Columns 6+ are duplicates from an extra form section — ignored.
+    const hdr=(rows[0]||[]).map(h=>h.toLowerCase());
+    const iName=hdr.findIndex(h=>h.includes('full name'));
+    const iWinner=hdr.findIndex(h=>h.includes('winner'));
+    const iAlt=hdr.findIndex(h=>h.includes('alternate'));
+    const iPicks=hdr.findIndex(h=>h.includes('pick 1 to'));
+    if(iName<0||iWinner<0){console.warn('[Masters Pool] Sheet columns not recognized:',hdr);return false;}
+    const parsed=rows.slice(1).filter(r=>r[iName]&&r[iWinner]).map(r=>{
+      const name=r[iName],winner=r[iWinner].trim(),alternate=(r[iAlt]||'').trim();
+      // Picks come as one comma-separated cell from multi-select checkbox
+      const allPicks=iPicks>=0&&r[iPicks]?r[iPicks].split(',').map(s=>s.trim()).filter(Boolean):r.slice(iAlt+1).filter(Boolean);
+      const seen=new Set([normName(winner)]);
+      const picks=[];
+      for(const g of allPicks){const k=normName(g);if(seen.has(k)){console.warn(`[Masters Pool] Duplicate pick "${g}" for ${name}, skipping`);}else{seen.add(k);picks.push(g);}}
+      return{name,winner,alternate,picks};
+    }).filter(p=>p.picks.length>0);
     liveParts=parsed;return true;
   }catch(e){return false;}
 }
@@ -447,11 +522,11 @@ function renderStandings(){
   document.getElementById('pot-total').textContent='$'+(ranked.length*120);
   let h='<table class="t"><thead><tr><th style="width:50px">Pos</th><th class="L">Player</th><th class="L hide-m">⭐ Winner</th><th>Score</th><th class="hide-m">W/D</th><th class="L hide-m">🔄 Alt</th></tr></thead><tbody>';
   ranked.forEach((p,i)=>{
-    const pos=i+1,medal=pos===1?'🥇':pos===2?'🥈':pos===3?'🥉':`<span class="rank-n">${pos}</span>`,exp=expanded.has(p.name);
+    const pos=i+1,medal=pos===1?'🥇':pos===2?'🥈':pos===3?'🥉':`<span class="rank-n">${pos}</span>`,exp=expanded.has(i);
     const wwd=isWD(p.winner),wo=ODDS[p.winner]?`<span class="odds-tag">${ODDS[p.winner]}</span>`:'',ao=ODDS[p.alternate]?`<span class="odds-tag">${ODDS[p.alternate]}</span>`:'';
-    const wtxt=`${wwd?'<span class="wd-tag">WD</span>':''}${p.winner} ${hasScores()?fmt(scores[p.winner]?.tp??null):''} ${wo}`;
-    const atxt=`${p.alternate} ${hasScores()?fmt(scores[p.alternate]?.tp??null):''} ${ao}`;
-    h+=`<tr class="pr${exp?' expanded':''}" onclick="toggleRow('${p.name.replace(/'/g,"\\'")}')">`;
+    const wtxt=`${wwd?'<span class="wd-tag">WD</span>':''}${p.winner} ${fmtGolfer(p.winner)} ${wo}`;
+    const atxt=`${p.alternate} ${fmtGolfer(p.alternate)} ${ao}`;
+    h+=`<tr class="pr${exp?' expanded':''}" onclick="toggleRow(${i})">`;
     h+=`<td>${medal}</td><td class="L"><span class="p-name">${p.name}</span><span class="chev${exp?' open':''}">▼</span></td>`;
     h+=`<td class="L hide-m">${wtxt}</td>`;
     h+=`<td><span class="tot${pos===1&&hasScores()?' lead':''}">${hasScores()?fmt(p.total):'<span class="sna">—</span>'}</span>${p.ua?'<span class="alt-in">ALT IN</span>':''}</td>`;
@@ -465,17 +540,17 @@ function buildSquad(p){
   let ua=false;
   let h=`<div class="squad-p"><div class="squad-ttl">${p.name} — Full 23-Golfer Squad</div><div class="squad-grid">`;
   const wo=ODDS[p.winner]||'',ao=ODDS[p.alternate]||'';
-  h+=`<div class="sq win"><span><span class="sq-badge w">Win</span>${p.winner}</span><div class="sq-right"><span class="sq-score">${hasScores()?fmt(scores[p.winner]?.tp??null):'—'}</span><span class="sq-odds">${wo}</span></div></div>`;
-  h+=`<div class="sq alt"><span><span class="sq-badge a">Alt</span>${p.alternate}</span><div class="sq-right"><span class="sq-score">${hasScores()?fmt(scores[p.alternate]?.tp??null):'—'}</span><span class="sq-odds">${ao}</span></div></div>`;
+  h+=`<div class="sq win"><span><span class="sq-badge w">Win</span>${p.winner}</span><div class="sq-right"><span class="sq-score">${fmtGolfer(p.winner)}</span><span class="sq-odds">${wo}</span></div></div>`;
+  h+=`<div class="sq alt"><span><span class="sq-badge a">Alt</span>${p.alternate}</span><div class="sq-right"><span class="sq-score">${fmtGolfer(p.alternate)}</span><span class="sq-odds">${ao}</span></div></div>`;
   p.picks.forEach(g=>{
     const gwd=isWD(g);let cls='',badge='';
     if(gwd&&!ua){cls='wdc';badge='<span class="sq-badge s">→Alt</span>';ua=true;}
     const go=ODDS[g]||'';
-    h+=`<div class="sq ${cls}"><span>${badge}${g}</span><div class="sq-right"><span class="sq-score">${hasScores()?fmt(scores[g]?.tp??null):'—'}</span><span class="sq-odds">${go}</span></div></div>`;
+    h+=`<div class="sq ${cls}"><span>${badge}${g}</span><div class="sq-right"><span class="sq-score">${fmtGolfer(g)}</span><span class="sq-odds">${go}</span></div></div>`;
   });
   return h+'</div></div>';
 }
-function toggleRow(name){if(expanded.has(name))expanded.delete(name);else expanded.add(name);renderStandings();}
+function toggleRow(idx){if(expanded.has(idx))expanded.delete(idx);else expanded.add(idx);renderStandings();}
 
 // ── Live field (standings tab) ────────────────────────────
 function renderFieldLive(){
@@ -493,9 +568,12 @@ function renderFieldLive(){
 
 // ── Odds tab ─────────────────────────────────────────────
 function renderOdds(){
+  const lbl=document.getElementById('odds-label');
+  if(oddsSource==='polymarket')lbl.textContent='2026 Masters Field — Live Odds via Polymarket';
+  else lbl.textContent='2026 Masters Field — Odds to Win (static fallback)';
   const q=(document.getElementById('odds-search').value||'').toLowerCase();
   const sortBy=document.getElementById('odds-sort').value;
-  let entries=Object.entries(ODDS).map(([n,o])=>({n,o,score:scores[n]?.tp??null,thru:scores[n]?.thru||''}));
+  let entries=Object.entries(ODDS).map(([n,o])=>({n,o,score:getScore(n)?.tp??null,thru:getScore(n)?.thru||''}));
   if(q)entries=entries.filter(e=>e.n.toLowerCase().includes(q));
   if(sortBy==='name')entries.sort((a,b)=>a.n.localeCompare(b.n));
   else if(sortBy==='score')entries.sort((a,b)=>(isNaN(parseInt(a.score))?999:parseInt(a.score))-(isNaN(parseInt(b.score))?999:parseInt(b.score)));
@@ -525,11 +603,12 @@ function updateLockedNames(){
 // ── Main refresh ─────────────────────────────────────────
 async function doRefresh(){
   const btn=document.getElementById('refresh-btn');btn.disabled=true;btn.textContent='↻ Loading…';
-  const[sheetRes,espnRes]=await Promise.all([fetchSheet(),fetchESPN()]);
+  const[sheetRes,espnRes,polyRes]=await Promise.all([fetchSheet(),fetchESPN(),fetchPolymarket()]);
   if(!espnRes&&!hasScores())loadDemo();
   updateStatus(espnRes,sheetRes);
+  if(espnRes&&liveParts.length>0)warnUnmatched();
   if(isRevealed()){renderStandings();renderFieldLive();}else{updateLockedNames();}
-  if(document.getElementById('tab-odds').classList.contains('active'))renderOdds();
+  renderOdds();
   btn.disabled=false;btn.textContent='↻ Refresh';
 }
 
@@ -552,8 +631,8 @@ async function init(){
     document.getElementById('lock-screen').style.display='block';
     document.getElementById('live-board').style.display='none';
     updateCD();
-    setInterval(()=>{updateCD();if(isRevealed()){document.getElementById('lock-screen').style.display='none';document.getElementById('live-board').style.display='block';doRefresh();}},1000);
-    setInterval(async()=>{const ok=await fetchSheet();updateStatus(false,ok);updateLockedNames();},60*1000);
+    const cdInterval=setInterval(()=>{updateCD();if(isRevealed()){clearInterval(cdInterval);clearInterval(sheetPollInterval);document.getElementById('lock-screen').style.display='none';document.getElementById('live-board').style.display='block';doRefresh();setInterval(()=>{if(tourneyStatus==='live')doRefresh();},5*60*1000);setInterval(async()=>{await fetchSheet();renderStandings();},10*60*1000);}},1000);
+    const sheetPollInterval=setInterval(async()=>{const ok=await fetchSheet();updateStatus(false,ok);updateLockedNames();},60*1000);
   }
 }
 
