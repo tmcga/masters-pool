@@ -433,8 +433,8 @@ async function fetchESPN(){
 }
 function parseESPN(data){
   const evts=data.events||[];
-  const evt=evts.find(e=>(e.name||'').toLowerCase().includes('masters'))||evts[0];
-  if(!evt)return;
+  const evt=evts.find(e=>(e.name||'').toLowerCase().includes('masters'));
+  if(!evt){console.log('[Masters Pool] Masters not found in ESPN feed yet — skipping');return;}
   const comp=(evt.competitions||[])[0]||{};
   const st=(comp.status||{}).type||{};
   if(st.name==='STATUS_IN_PROGRESS'){tourneyStatus='live';roundLabel=`Round ${comp.status?.period||'?'} · Live`;}
