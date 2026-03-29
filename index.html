@@ -120,6 +120,9 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 .tot.lead { color:var(--gold); font-size:1.28rem; }
 .wd-tag { display:inline-block; background:rgba(255,68,68,0.18); border:1px solid rgba(255,68,68,0.35); color:#FF7070; font-size:0.62rem; font-weight:700; padding:1px 5px; border-radius:4px; margin-right:3px; vertical-align:middle; }
 .alt-in { display:inline-block; background:rgba(100,181,246,0.18); border:1px solid rgba(100,181,246,0.3); color:var(--blue-text); font-size:0.62rem; font-weight:700; padding:1px 6px; border-radius:4px; margin-left:4px; vertical-align:middle; }
+.wp { font-size:0.82rem; color:var(--muted); font-weight:600; }
+.wp-warm { color:var(--gold); }
+.wp-hot { color:#4caf50; font-weight:700; }
 .odds-tag { display:inline-block; font-size:0.65rem; color:rgba(242,197,92,0.7); margin-left:5px; font-family:Arial,sans-serif; }
 
 /* ══ SQUAD PANEL ═════════════════════════════════════════ */
@@ -211,7 +214,7 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 
   <!-- TABS -->
   <div class="tab-nav">
-    <button class="tab-btn active" id="tbtn-standings" onclick="showTab('standings',this)">🏆 Standings</button>
+    <button class="tab-btn active" id="tbtn-standings" onclick="showTab('standings',this)">🏆 Leaderboard</button>
     <button class="tab-btn" id="tbtn-signup" onclick="showTab('signup',this)">📝 Enter Picks</button>
     <button class="tab-btn" id="tbtn-odds" onclick="showTab('odds',this)">🎯 Field &amp; Odds</button>
   </div>
@@ -236,7 +239,7 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
     </div>
   </div>
   <div id="live-board" style="display:none">
-    <div class="sec-lbl">Pool Standings</div>
+    <div class="sec-lbl">Pool Leaderboard</div>
     <div class="card">
       <div id="standings-container"><div class="loading"><div class="spinner"></div>Calculating…</div></div>
     </div>
@@ -389,7 +392,7 @@ function oddsColor(o){ const n=parseInt(o); if(isNaN(n))return'odds-field'; if(M
 // ════════════════════════════════════════════════════════
 // State
 // ════════════════════════════════════════════════════════
-let scores={}, tourneyStatus='idle', roundLabel='', expanded=new Set(), liveParts=[...PARTICIPANTS];
+let scores={}, tourneyStatus='idle', roundLabel='', currentRound=0, expanded=new Set(), liveParts=[...PARTICIPANTS];
 
 // ── Tab nav ──────────────────────────────────────────────
 function showTab(name,btn){
@@ -433,6 +436,26 @@ function num(n){const s=getScore(n);if(!s||isWD(n))return 0;const v=parseInt(s.t
 function calcTeam(p){const sc=[p.winner,...p.picks];let t=0,ua=false;for(const g of sc){if(isWD(g)&&!ua){t+=num(p.alternate);ua=true;}else t+=num(g);}return{t,ua};}
 const hasScores=()=>Object.keys(scores).length>0;
 
+// ── Win probability ─────────────────────────────────────
+function normalCDF(x){
+  const a1=0.254829592,a2=-0.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=0.3275911;
+  const sign=x<0?-1:1;x=Math.abs(x)/Math.SQRT2;
+  const t=1/(1+p*x);const y=1-((((a5*t+a4)*t+a3)*t+a2)*t+a1)*t*Math.exp(-x*x);
+  return 0.5*(1+sign*y);
+}
+function calcWinProbs(ranked){
+  const n=ranked.length;if(n===0)return[];
+  if(tourneyStatus==='final')return ranked.map((_,i)=>i===0?1:0);
+  const remRounds=Math.max(4-currentRound,0.5);
+  const teamSigma=Math.sqrt(22)*2.5;
+  const remSigma=Math.sqrt(remRounds)*teamSigma;
+  if(remSigma===0)return ranked.map((_,i)=>i===0?1:0);
+  const leader=ranked[0].total;
+  const raw=ranked.map(p=>{const gap=leader-p.total;return normalCDF(gap/remSigma);});
+  const sum=raw.reduce((a,b)=>a+b,0);
+  return raw.map(r=>sum>0?r/sum:1/n);
+}
+
 // ── ESPN fetch ───────────────────────────────────────────
 async function fetchESPN(){
   for(const url of['https://site.api.espn.com/apis/site/v2/sports/golf/leaderboard?league=pga','https://corsproxy.io/?url=https://site.api.espn.com/apis/site/v2/sports/golf/leaderboard?league=pga']){
@@ -446,9 +469,9 @@ function parseESPN(data){
   if(!evt){console.log('[Masters Pool] Masters not found in ESPN feed yet — skipping');return;}
   const comp=(evt.competitions||[])[0]||{};
   const st=(comp.status||{}).type||{};
-  if(st.name==='STATUS_IN_PROGRESS'){tourneyStatus='live';roundLabel=`Round ${comp.status?.period||'?'} · Live`;}
-  else if(st.name?.includes('FINAL')){tourneyStatus='final';roundLabel='Final';}
-  else{tourneyStatus='pre';roundLabel=(st.name||'').replace('STATUS_','').replace(/_/g,' ');}
+  if(st.name==='STATUS_IN_PROGRESS'){tourneyStatus='live';currentRound=comp.status?.period||1;roundLabel=`Round ${currentRound} · Live`;}
+  else if(st.name?.includes('FINAL')){tourneyStatus='final';currentRound=4;roundLabel='Final';}
+  else{tourneyStatus='pre';currentRound=0;roundLabel=(st.name||'').replace('STATUS_','').replace(/_/g,' ');}
   const ns={};
   for(const c of(comp.competitors||[])){
     const name=c.athlete?.displayName||'';if(!name)continue;
@@ -529,18 +552,22 @@ function renderStandings(){
   const ranked=liveParts.map(p=>{const{t,ua}=calcTeam(p);return{...p,total:t,ua};}).sort((a,b)=>a.total-b.total);
   document.getElementById('entry-count').textContent=ranked.length;
   document.getElementById('pot-total').textContent='$'+(ranked.length*120);
-  let h='<table class="t"><thead><tr><th style="width:50px">Pos</th><th class="L">Player</th><th class="L hide-m">⭐ Winner</th><th>Score</th><th class="hide-m">W/D</th><th class="L hide-m">🔄 Alt</th></tr></thead><tbody>';
+  const winProbs=hasScores()?calcWinProbs(ranked):[];
+  let h='<table class="t"><thead><tr><th style="width:50px">Pos</th><th class="L">Player</th><th class="L hide-m">⭐ Winner</th><th>Score</th><th>Win %</th><th class="hide-m">W/D</th><th class="L hide-m">🔄 Alt</th></tr></thead><tbody>';
   ranked.forEach((p,i)=>{
     const pos=i+1,medal=pos===1?'🥇':pos===2?'🥈':pos===3?'🥉':`<span class="rank-n">${pos}</span>`,exp=expanded.has(i);
     const wwd=isWD(p.winner),wo=ODDS[p.winner]?`<span class="odds-tag">${ODDS[p.winner]}</span>`:'',ao=ODDS[p.alternate]?`<span class="odds-tag">${ODDS[p.alternate]}</span>`:'';
     const wtxt=`${wwd?'<span class="wd-tag">WD</span>':''}${p.winner} ${fmtGolfer(p.winner)} ${wo}`;
     const atxt=`${p.alternate} ${fmtGolfer(p.alternate)} ${ao}`;
+    const wp=winProbs[i];
+    const wpTxt=hasScores()?`<span class="wp${wp>=0.25?' wp-hot':wp>=0.10?' wp-warm':''}">${(wp*100).toFixed(1)}%</span>`:'<span class="sna">—</span>';
     h+=`<tr class="pr${exp?' expanded':''}" onclick="toggleRow(${i})">`;
     h+=`<td>${medal}</td><td class="L"><span class="p-name">${p.name}</span><span class="chev${exp?' open':''}">▼</span></td>`;
     h+=`<td class="L hide-m">${wtxt}</td>`;
     h+=`<td><span class="tot${pos===1&&hasScores()?' lead':''}">${hasScores()?fmt(p.total):'<span class="sna">—</span>'}</span>${p.ua?'<span class="alt-in">ALT IN</span>':''}</td>`;
+    h+=`<td>${wpTxt}</td>`;
     h+=`<td class="hide-m">${p.ua?'<span class="alt-in">In</span>':'—'}</td><td class="L hide-m">${atxt}</td></tr>`;
-    if(exp)h+=`<tr class="squad-tr"><td colspan="6">${buildSquad(p)}</td></tr>`;
+    if(exp)h+=`<tr class="squad-tr"><td colspan="7">${buildSquad(p)}</td></tr>`;
   });
   h+='</tbody></table>';
   el.innerHTML=h;
