@@ -809,13 +809,14 @@ async function init(){
   if(isRevealed()){
     document.getElementById('lock-screen').style.display='none';
     document.getElementById('live-board').style.display='block';
+    document.getElementById('tbtn-signup').style.display='none';
     await doRefresh();
     setInterval(doRefresh,5*60*1000);
   } else {
     document.getElementById('lock-screen').style.display='block';
     document.getElementById('live-board').style.display='none';
     updateCD();
-    const cdInterval=setInterval(()=>{updateCD();if(isRevealed()){clearInterval(cdInterval);document.getElementById('lock-screen').style.display='none';document.getElementById('live-board').style.display='block';doRefresh();setInterval(doRefresh,5*60*1000);}},1000);
+    const cdInterval=setInterval(()=>{updateCD();if(isRevealed()){clearInterval(cdInterval);document.getElementById('lock-screen').style.display='none';document.getElementById('live-board').style.display='block';document.getElementById('tbtn-signup').style.display='none';doRefresh();setInterval(doRefresh,5*60*1000);}},1000);
   }
 }
 
