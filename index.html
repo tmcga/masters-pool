@@ -44,22 +44,6 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 .pill:last-child { border-right:none; }
 .pill strong { color:var(--gold); font-size:0.88rem; }
 
-/* ══ STATUS BAR ══════════════════════════════════════════ */
-.status-bar { background:rgba(0,56,41,0.5); border-bottom:1px solid rgba(242,197,92,0.15); padding:7px 20px; display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap; position:relative; z-index:2; }
-.s-item { font-size:0.76rem; color:rgba(255,255,255,0.7); font-family:Arial,sans-serif; display:flex; align-items:center; gap:5px; }
-.dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
-.dot.live  { background:#4CAF50; box-shadow:0 0 7px #4CAF50; animation:blink 1.5s infinite; }
-.dot.final { background:var(--gold); }
-.dot.idle  { background:#607d8b; }
-.dot.demo  { background:#FF9800; }
-.dot.ok    { background:#4CAF50; }
-.dot.warn  { background:#FF9800; }
-.dot.off   { background:#546e7a; }
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-.refresh-btn { background:transparent; border:1px solid rgba(242,197,92,0.35); color:var(--gold); font-size:0.74rem; padding:4px 12px; border-radius:10px; cursor:pointer; font-family:Arial,sans-serif; transition:background 0.2s; }
-.refresh-btn:hover { background:rgba(242,197,92,0.1); }
-.refresh-btn:disabled { opacity:0.4; cursor:not-allowed; }
-
 /* ══ TAB NAV ═════════════════════════════════════════════ */
 .tab-nav { background:rgba(0,30,20,0.6); border-bottom:2px solid var(--gold); display:flex; justify-content:center; position:relative; z-index:2; }
 .tab-btn { padding:13px 28px; font-size:0.82rem; font-family:Arial,sans-serif; color:rgba(255,255,255,0.6); cursor:pointer; border:none; background:transparent; border-bottom:3px solid transparent; margin-bottom:-2px; transition:all 0.2s; letter-spacing:0.5px; }
@@ -180,8 +164,6 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
   .hdr-pills{gap:0;padding-top:8px;}
   .pill{padding:4px 10px;font-size:0.68rem;}
   .pill strong{font-size:0.78rem;}
-  .status-bar{gap:10px;padding:6px 12px;}
-  .s-item{font-size:0.68rem;}
   .t th,.t td{padding:9px 7px;font-size:0.78rem;}
   .p-name{font-size:0.84rem;}
   .tot{font-size:1rem;}
@@ -226,14 +208,6 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
         <div class="pill">Format <strong>23 picks · 21 score</strong></div>
       </div>
     </div>
-
-  <!-- STATUS BAR -->
-  <div class="status-bar">
-    <div class="s-item"><span class="dot" id="espn-dot"></span><span id="espn-txt">Connecting…</span></div>
-    <div class="s-item"><span class="dot" id="sheet-dot"></span><span id="sheet-txt">Picks: —</span></div>
-    <div class="s-item" id="last-updated"></div>
-    <button class="refresh-btn" id="refresh-btn" onclick="doRefresh()">↻ Refresh</button>
-  </div>
 
   <!-- TABS -->
   <div class="tab-nav">
@@ -522,19 +496,6 @@ async function fetchPicks(){
   }catch(e){return false;}
 }
 
-// ── Status bar ───────────────────────────────────────────
-function updateStatus(espn,picks){
-  document.getElementById('last-updated').textContent='Updated '+new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-  const ed=document.getElementById('espn-dot'),et=document.getElementById('espn-txt');
-  if(!espn){ed.className='dot warn';et.textContent='Scores unavailable';}
-  else if(tourneyStatus==='live'){ed.className='dot live';et.textContent='🔴 LIVE · '+roundLabel;}
-  else if(tourneyStatus==='final'){ed.className='dot final';et.textContent='Tournament Final';}
-  else if(tourneyStatus==='demo'){ed.className='dot demo';et.textContent='Demo data';}
-  else{ed.className='dot idle';et.textContent=roundLabel||'Not yet started';}
-  const sd=document.getElementById('sheet-dot'),st=document.getElementById('sheet-txt');
-  if(picks){sd.className='dot ok';st.textContent=`Picks: ${liveParts.length} entries`;}
-  else{sd.className='dot warn';st.textContent='Picks: unreachable';}
-}
 
 // ── Render standings ─────────────────────────────────────
 function renderStandings(){
@@ -623,14 +584,11 @@ function updateLockedNames(){
 
 // ── Main refresh ─────────────────────────────────────────
 async function doRefresh(){
-  const btn=document.getElementById('refresh-btn');btn.disabled=true;btn.textContent='↻ Loading…';
-  const[picksRes,espnRes,polyRes]=await Promise.all([fetchPicks(),fetchESPN(),fetchPolymarket()]);
+  const[,espnRes]=await Promise.all([fetchPicks(),fetchESPN(),fetchPolymarket()]);
   if(!espnRes&&!hasScores())loadDemo();
-  updateStatus(espnRes,picksRes);
   if(espnRes&&liveParts.length>0)warnUnmatched();
   if(isRevealed()){renderStandings();renderFieldLive();}else{updateLockedNames();}
   renderOdds();
-  btn.disabled=false;btn.textContent='↻ Refresh';
 }
 
 // ── Init ─────────────────────────────────────────────────
