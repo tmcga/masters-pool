@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-05T23:01:34.969Z",
+  "updated": "2026-04-05T23:48:16.394Z",
   "participants": [
     {
       "name": "Patrick Downey",
@@ -167,6 +167,34 @@
         "Shane Lowry",
         "Tommy Fleetwood",
         "Gary Woodland"
+      ]
+    },
+    {
+      "name": "Brian Sullivan",
+      "winner": "Scottie Scheffler",
+      "alternate": "Corey Conners",
+      "picks": [
+        "Akshay Bhatia",
+        "Brooks Koepka",
+        "Bryson DeChambeau",
+        "Cameron Young",
+        "Collin Morikawa",
+        "Hideki Matsuyama",
+        "Jon Rahm",
+        "Jordan Spieth",
+        "Justin Rose",
+        "Justin Thomas",
+        "Ludvig Åberg",
+        "Matt Fitzpatrick",
+        "Maverick McNealy",
+        "Patrick Reed",
+        "Robert MacIntyre",
+        "Rory McIlroy",
+        "Scottie Scheffler",
+        "Sepp Straka",
+        "Tommy Fleetwood",
+        "Viktor Hovland",
+        "Xander Schauffele"
       ]
     }
   ]
