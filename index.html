@@ -38,8 +38,9 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 .hdr-flag { margin-bottom:6px; }
 .masters-logo { height:100px; width:auto; }
 .hdr-title { font-size:1.1rem; color:var(--gold); letter-spacing:4px; text-transform:uppercase; font-family:Arial,sans-serif; margin-bottom:4px; opacity:0.85; }
-.hdr-sub { font-size:0.85rem; color:var(--muted); letter-spacing:3px; text-transform:uppercase; font-family:Arial,sans-serif; margin-bottom:14px; }
-.hdr-pills { display:flex; justify-content:center; gap:0; flex-wrap:wrap; border-top:1px solid rgba(242,197,92,0.25); padding-top:10px; }
+.hdr-sub { font-size:0.85rem; color:var(--muted); letter-spacing:3px; text-transform:uppercase; font-family:Arial,sans-serif; margin-bottom:0; }
+.pills-tabs { position:relative; z-index:2; }
+.hdr-pills { display:flex; justify-content:center; gap:0; flex-wrap:wrap; background:rgba(0,30,20,0.6); padding:8px 0; border-bottom:1px solid rgba(242,197,92,0.15); }
 .pill { padding:6px 18px; border-right:1px solid rgba(242,197,92,0.2); font-size:0.76rem; color:rgba(255,255,255,0.65); font-family:Arial,sans-serif; }
 .pill:last-child { border-right:none; }
 .pill strong { color:var(--gold); font-size:0.88rem; }
@@ -200,20 +201,21 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
       <div class="hdr-flag"><img src="Masters_Lockup1A_RGB.png" alt="The Masters" class="masters-logo"></div>
       <div class="hdr-title">Pool</div>
       <div class="hdr-sub">Opening Round &nbsp;·&nbsp; April 9th, 2026</div>
-      <div class="hdr-pills">
-        <div class="pill">Buy-In <strong>$120</strong></div>
-        <div class="pill">Entries <strong id="entry-count">—</strong></div>
-        <div class="pill">Pot <strong id="pot-total">—</strong></div>
-        <div class="pill">Scoring <strong>Lowest Wins</strong></div>
-        <div class="pill">Format <strong>23 picks · 21 score</strong></div>
-      </div>
     </div>
 
-  <!-- TABS -->
-  <div class="tab-nav">
-    <button class="tab-btn active" id="tbtn-standings" onclick="showTab('standings',this)">🏆 Leaderboard</button>
-    <button class="tab-btn" id="tbtn-signup" onclick="showTab('signup',this)">📝 Enter Picks</button>
-    <button class="tab-btn" id="tbtn-odds" onclick="showTab('odds',this)">🎯 Field &amp; Odds</button>
+  <!-- PILLS + TABS -->
+  <div class="pills-tabs">
+    <div class="hdr-pills">
+      <div class="pill">Buy-In <strong>$120</strong></div>
+      <div class="pill">Entries <strong id="entry-count">—</strong></div>
+      <div class="pill">Pot <strong id="pot-total">—</strong></div>
+      <div class="pill">Scoring <strong>Lowest Wins</strong></div>
+    </div>
+    <div class="tab-nav">
+      <button class="tab-btn active" id="tbtn-standings" onclick="showTab('standings',this)">🏆 Leaderboard</button>
+      <button class="tab-btn" id="tbtn-signup" onclick="showTab('signup',this)">📝 Enter Picks</button>
+      <button class="tab-btn" id="tbtn-odds" onclick="showTab('odds',this)">🎯 Field &amp; Odds</button>
+    </div>
   </div>
   </div>
 </div>
