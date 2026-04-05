@@ -153,6 +153,65 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 .form-frame-wrap { background:#fff; border:1px solid rgba(242,197,92,0.18); border-radius:10px; overflow:hidden; }
 .form-frame-wrap iframe { width:100%; height:3200px; border:none; display:block; }
 
+/* ══ STATS TAB ══════════════════════════════════════════ */
+.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px; }
+.stats-full { grid-column:1 / -1; }
+
+.coverage-body { text-align:center; padding:24px 20px; }
+.coverage-ring { position:relative; width:130px; height:130px; margin:0 auto 10px; }
+.coverage-ring svg { transform:rotate(-90deg); }
+.coverage-ring-label { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.coverage-num { font-size:2.2rem; font-weight:700; color:var(--green-dark); line-height:1; }
+.coverage-denom { font-size:0.72rem; color:#999; font-family:Arial,sans-serif; margin-top:2px; }
+.coverage-sub { font-size:0.78rem; color:#666; font-family:Arial,sans-serif; margin-top:8px; }
+
+.pop-list { padding:12px 16px; }
+.pop-row { display:flex; align-items:center; gap:10px; padding:6px 0; border-bottom:1px solid #f0f0f0; }
+.pop-row:last-child { border-bottom:none; }
+.pop-name { min-width:140px; font-size:0.82rem; font-family:Arial,sans-serif; color:#222; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.pop-odds { min-width:52px; font-size:0.72rem; font-weight:700; text-align:right; }
+.pop-bar-wrap { flex:1; height:22px; background:#f0f0f0; border-radius:4px; overflow:hidden; }
+.pop-bar { height:100%; border-radius:4px; transition:width 0.4s ease; min-width:2px; }
+.pop-bar.tier-high { background:linear-gradient(90deg,#00573F,#00875F); }
+.pop-bar.tier-mid  { background:linear-gradient(90deg,#C9963B,#F2C55C); }
+.pop-bar.tier-low  { background:#d0d0d0; }
+.pop-count { min-width:36px; font-size:0.82rem; font-weight:700; color:#222; text-align:center; font-family:Arial,sans-serif; }
+.pop-score { min-width:36px; text-align:right; }
+
+.cont-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:8px; padding:12px 16px; }
+.cont-item { background:#fdf6e3; border:1px solid rgba(242,197,92,0.3); border-radius:8px; padding:12px 14px; }
+.cont-golfer { font-size:0.88rem; font-weight:700; color:#222; font-family:Arial,sans-serif; }
+.cont-odds { font-size:0.75rem; font-weight:700; margin-left:6px; }
+.cont-owner { font-size:0.75rem; color:#888; font-family:Arial,sans-serif; margin-top:4px; }
+.cont-score { font-size:0.82rem; font-weight:700; margin-top:4px; }
+
+.winner-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; padding:14px 16px; }
+.winner-card { background:#fff; border:2px solid var(--gold); border-radius:10px; padding:16px; text-align:center; }
+.winner-name { font-size:1.05rem; font-weight:700; color:var(--green-dark); }
+.winner-odds { font-size:0.82rem; font-weight:700; margin-top:2px; }
+.winner-pickers { font-size:0.78rem; color:#666; font-family:Arial,sans-serif; margin-top:8px; line-height:1.6; }
+.winner-count { display:inline-block; background:var(--gold); color:#4a2c00; font-size:0.62rem; font-weight:700; padding:2px 10px; border-radius:10px; margin-top:6px; }
+
+.matrix-wrap { overflow-x:auto; padding:12px 16px; }
+.matrix { border-collapse:collapse; width:100%; }
+.matrix th { font-size:0.7rem; font-family:Arial,sans-serif; padding:8px 6px; color:#666; font-weight:600; }
+.matrix th.rotate { writing-mode:vertical-lr; text-orientation:mixed; transform:rotate(180deg); min-width:36px; white-space:nowrap; }
+.matrix td { text-align:center; padding:8px; font-size:0.85rem; font-weight:700; font-family:Arial,sans-serif; border:1px solid #eee; min-width:50px; }
+.matrix td.heat-0 { background:#f9f9f9;    color:#ccc; }
+.matrix td.heat-1 { background:#e8f5e9;    color:#388e3c; }
+.matrix td.heat-2 { background:#a5d6a7;    color:#1b5e20; }
+.matrix td.heat-3 { background:#66bb6a;    color:#fff; }
+.matrix td.heat-4 { background:#2e7d32;    color:#fff; }
+.matrix td.heat-5 { background:var(--green-dark); color:var(--gold); }
+.matrix td.diag   { background:#f9f9f9;    color:#ccc; font-style:italic; }
+
+.live-stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.live-stat-card { background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:18px; text-align:center; }
+.live-stat-label { font-size:0.6rem; text-transform:uppercase; letter-spacing:2px; color:var(--gold-dark); font-family:Arial,sans-serif; font-weight:700; margin-bottom:6px; }
+.live-stat-golfer { font-size:1rem; font-weight:700; color:#222; }
+.live-stat-score { font-size:1.4rem; font-weight:700; margin:4px 0; }
+.live-stat-detail { font-size:0.72rem; color:#888; font-family:Arial,sans-serif; line-height:1.5; }
+
 /* ══ MISC ════════════════════════════════════════════════ */
 .loading { text-align:center; padding:44px; color:var(--muted); font-family:Arial,sans-serif; font-size:0.86rem; }
 .spinner { width:30px; height:30px; border:3px solid rgba(255,255,255,0.1); border-top-color:var(--gold); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 12px; }
@@ -186,6 +245,14 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
   .cd-unit{min-width:56px;padding:8px 10px;}
   .cd-num{font-size:1.5rem;}
   .form-frame-wrap iframe{height:5400px;}
+  .stats-grid{grid-template-columns:1fr;}
+  .pop-name{min-width:100px;font-size:0.76rem;}
+  .pop-odds{min-width:40px;font-size:0.68rem;}
+  .cont-grid{grid-template-columns:1fr;}
+  .winner-grid{grid-template-columns:1fr;}
+  .matrix th.rotate{font-size:0.6rem;}
+  .matrix td{padding:6px 4px;font-size:0.75rem;min-width:40px;}
+  .live-stats-grid{grid-template-columns:1fr;}
   .footer{font-size:0.62rem;letter-spacing:0.5px;}
 }
 </style>
@@ -215,6 +282,7 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
       <button class="tab-btn active" id="tbtn-standings" onclick="showTab('standings',this)">🏆 Leaderboard</button>
       <button class="tab-btn" id="tbtn-signup" onclick="showTab('signup',this)">📝 Enter Picks</button>
       <button class="tab-btn" id="tbtn-odds" onclick="showTab('odds',this)">🎯 Field &amp; Odds</button>
+      <button class="tab-btn" id="tbtn-stats" onclick="showTab('stats',this)">📊 Statistics</button>
     </div>
   </div>
   </div>
@@ -279,6 +347,13 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
     </select>
   </div>
   <div class="card"><div id="odds-board"><div class="loading"><div class="spinner"></div></div></div></div>
+</div>
+</div>
+
+<!-- ══ TAB: STATISTICS ══════════════════════════════════ -->
+<div class="tab-panel" id="tab-stats">
+<div class="wrap">
+  <div id="stats-container"><div class="loading"><div class="spinner"></div>Loading statistics…</div></div>
 </div>
 </div>
 
@@ -394,6 +469,7 @@ function showTab(name,btn){
   document.getElementById('tab-'+name).classList.add('active');
   btn.classList.add('active');
   if(name==='odds') renderOdds();
+  if(name==='stats') renderStats();
 }
 
 // ── Name normalization ───────────────────────────────────
@@ -567,6 +643,102 @@ function renderOdds(){
   document.getElementById('odds-board').innerHTML=h+'</div>';
 }
 
+// ── Statistics tab ───────────────────────────────────────
+function renderStats(){
+  const el=document.getElementById('stats-container');
+  if(!el)return;
+  if(liveParts.length===0){el.innerHTML='<div class="loading">No participant data yet.</div>';return;}
+  if(!isRevealed()){el.innerHTML='<div class="lock-box"><div class="lock-icon">🔒</div><div class="lock-h">Statistics Revealed at First Tee</div><div class="lock-sub">Pick analysis will appear here once the tournament begins.</div></div>';return;}
+
+  const totalParts=liveParts.length;
+
+  // ── Frequency map ──
+  const freq={};
+  for(const p of liveParts) for(const g of p.picks) freq[g]=(freq[g]||0)+1;
+  const uniqueGolfers=Object.keys(freq).length;
+  const totalField=Object.keys(ODDS).length||89;
+
+  // ── 1. Field Coverage donut ──
+  const pct=totalField>0?uniqueGolfers/totalField:0;
+  const R=52,SW=10,C=2*Math.PI*R,off=C*(1-pct);
+  let coverageHtml=`<div class="coverage-body"><div class="coverage-ring"><svg width="130" height="130" viewBox="0 0 130 130"><circle cx="65" cy="65" r="${R}" fill="none" stroke="#e0e0e0" stroke-width="${SW}"/><circle cx="65" cy="65" r="${R}" fill="none" stroke="#00573F" stroke-width="${SW}" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" stroke-linecap="round"/></svg><div class="coverage-ring-label"><span class="coverage-num">${uniqueGolfers}</span><span class="coverage-denom">of ${totalField}</span></div></div><div class="coverage-sub">${totalParts} participants · ${uniqueGolfers} unique golfers selected</div></div>`;
+
+  // ── 2. Winner predictions ──
+  const winnerMap={};
+  for(const p of liveParts){if(!winnerMap[p.winner])winnerMap[p.winner]=[];winnerMap[p.winner].push(p.name);}
+  const winners=Object.entries(winnerMap).sort((a,b)=>b[1].length-a[1].length||(parseInt(ODDS[a[0]])||9999)-(parseInt(ODDS[b[0]])||9999));
+  let winnerHtml='<div class="winner-grid">';
+  for(const[g,pickers]of winners){
+    const o=ODDS[g]||'';
+    winnerHtml+=`<div class="winner-card"><div class="winner-name">${esc(g)}</div><div class="winner-odds ${oddsColor(o)}">${esc(o)}</div>${hasScores()?`<div style="margin-top:4px">${fmtGolfer(g)}</div>`:''}`;
+    winnerHtml+=`<div class="winner-pickers">${pickers.map(n=>esc(n)).join('<br>')}</div>`;
+    if(pickers.length>1)winnerHtml+=`<div class="winner-count">${pickers.length} picks</div>`;
+    winnerHtml+='</div>';
+  }
+  winnerHtml+='</div>';
+
+  // ── 3. Pick popularity bars ──
+  const sorted=Object.entries(freq).sort((a,b)=>b[1]-a[1]||(parseInt(ODDS[a[0]])||9999)-(parseInt(ODDS[b[0]])||9999));
+  let popHtml='<div class="pop-list">';
+  for(const[g,count]of sorted){
+    const pctBar=(count/totalParts*100).toFixed(0);
+    const tier=count>=totalParts*0.75?'tier-high':count>=totalParts*0.25?'tier-mid':'tier-low';
+    const o=ODDS[g]||'';
+    popHtml+=`<div class="pop-row"><span class="pop-name">${esc(g)}</span><span class="pop-odds ${oddsColor(o)}">${esc(o)}</span><div class="pop-bar-wrap"><div class="pop-bar ${tier}" style="width:${pctBar}%"></div></div><span class="pop-count">${count}/${totalParts}</span>${hasScores()?`<span class="pop-score">${fmtGolfer(g)}</span>`:''}</div>`;
+  }
+  popHtml+='</div>';
+
+  // ── 4. Contrarian picks ──
+  const contrarians=Object.entries(freq).filter(([,c])=>c===1).map(([g])=>{
+    const owner=liveParts.find(p=>p.picks.includes(g));
+    return{golfer:g,owner:owner?owner.name:'?'};
+  }).sort((a,b)=>(parseInt(ODDS[a.golfer])||9999)-(parseInt(ODDS[b.golfer])||9999));
+  let contHtml='<div class="cont-grid">';
+  for(const c of contrarians){
+    const o=ODDS[c.golfer]||'';
+    contHtml+=`<div class="cont-item"><div class="cont-golfer">${esc(c.golfer)} <span class="cont-odds ${oddsColor(o)}">${esc(o)}</span></div><div class="cont-owner">Only ${esc(c.owner)}</div>${hasScores()?`<div class="cont-score">${fmtGolfer(c.golfer)}</div>`:''}</div>`;
+  }
+  contHtml+='</div>';
+
+  // ── 5. Overlap matrix ──
+  const n=liveParts.length;
+  const ov=Array.from({length:n},()=>Array(n).fill(0));
+  let ovMin=21,ovMax=0;
+  for(let i=0;i<n;i++){const si=new Set(liveParts[i].picks);for(let j=i+1;j<n;j++){const s=liveParts[j].picks.filter(g=>si.has(g)).length;ov[i][j]=s;ov[j][i]=s;if(s<ovMin)ovMin=s;if(s>ovMax)ovMax=s;}}
+  const ovRange=ovMax-ovMin||1;
+  function heatCls(v){const lv=Math.round((v-ovMin)/ovRange*5);return'heat-'+Math.min(5,Math.max(0,lv));}
+  const firstName=nm=>{const p=nm.split(' ');return p[0]+(p.length>1?' '+p[p.length-1][0]+'.':'');};
+  let matHtml='<div class="matrix-wrap"><table class="matrix"><thead><tr><th></th>';
+  for(const p of liveParts) matHtml+=`<th class="rotate">${esc(firstName(p.name))}</th>`;
+  matHtml+='</tr></thead><tbody>';
+  for(let i=0;i<n;i++){
+    matHtml+=`<tr><th style="text-align:right;white-space:nowrap">${esc(firstName(liveParts[i].name))}</th>`;
+    for(let j=0;j<n;j++){
+      if(i===j)matHtml+=`<td class="diag">21</td>`;
+      else matHtml+=`<td class="${heatCls(ov[i][j])}">${ov[i][j]}</td>`;
+    }
+    matHtml+='</tr>';
+  }
+  matHtml+='</tbody></table></div>';
+
+  // ── 6. Live tournament stats (conditional) ──
+  let liveHtml='';
+  if(hasScores()){
+    const golferVal=Object.entries(freq).filter(([g])=>!isWD(g)).map(([g,count])=>{const s=num(g);return{golfer:g,count,score:s,impact:s*count};});
+    const best=golferVal.slice().sort((a,b)=>a.impact-b.impact)[0];
+    const worst=golferVal.slice().sort((a,b)=>b.impact-a.impact)[0];
+    const outlier=golferVal.filter(g=>g.count===1).sort((a,b)=>a.score-b.score)[0];
+    liveHtml='<div class="stats-full"><div class="sec-lbl">Live Tournament Stats</div><div class="live-stats-grid">';
+    if(best)liveHtml+=`<div class="live-stat-card"><div class="live-stat-label">Best Pick</div><div class="live-stat-golfer">${esc(best.golfer)}</div><div class="live-stat-score">${fmt(best.score)}</div><div class="live-stat-detail">Picked by ${best.count}/${totalParts} · Total impact: ${fmt(best.impact)}</div></div>`;
+    if(worst)liveHtml+=`<div class="live-stat-card"><div class="live-stat-label">Worst Pick</div><div class="live-stat-golfer">${esc(worst.golfer)}</div><div class="live-stat-score">${fmt(worst.score)}</div><div class="live-stat-detail">Picked by ${worst.count}/${totalParts} · Total impact: ${fmt(worst.impact)}</div></div>`;
+    if(outlier)liveHtml+=`<div class="live-stat-card"><div class="live-stat-label">Most Valuable Outlier</div><div class="live-stat-golfer">${esc(outlier.golfer)}</div><div class="live-stat-score">${fmt(outlier.score)}</div><div class="live-stat-detail">Only picked by ${esc(liveParts.find(p=>p.picks.includes(outlier.golfer))?.name||'?')}</div></div>`;
+    liveHtml+='</div></div>';
+  }
+
+  // ── Assemble ──
+  el.innerHTML=`<div class="stats-grid"><div><div class="sec-lbl">Field Coverage</div><div class="card">${coverageHtml}</div></div><div><div class="sec-lbl">Winner Predictions</div><div class="card">${winnerHtml}</div></div><div class="stats-full"><div class="sec-lbl">Pick Popularity</div><div class="card">${popHtml}</div></div><div><div class="sec-lbl">Contrarian Picks</div><div class="card">${contHtml}</div></div><div><div class="sec-lbl">Pick Overlap</div><div class="card">${matHtml}</div></div>${liveHtml}</div>`;
+}
+
 // ── Countdown ────────────────────────────────────────────
 function updateCD(){
   const diff=REVEAL_DATE-new Date();if(diff<=0)return;
@@ -589,7 +761,7 @@ async function doRefresh(){
   const[,espnRes]=await Promise.all([fetchPicks(),fetchESPN(),fetchPolymarket()]);
   if(!espnRes&&!hasScores())loadDemo();
   if(espnRes&&liveParts.length>0)warnUnmatched();
-  if(isRevealed()){renderStandings();renderFieldLive();}else{updateLockedNames();}
+  if(isRevealed()){renderStandings();renderFieldLive();renderStats();}else{updateLockedNames();}
   renderOdds();
 }
 
