@@ -202,6 +202,7 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
   .lock-box{padding:24px 16px;margin:20px auto;}
   .cd-unit{min-width:56px;padding:8px 10px;}
   .cd-num{font-size:1.5rem;}
+  .form-frame-wrap iframe{height:5400px;}
   .footer{font-size:0.62rem;letter-spacing:0.5px;}
 }
 </style>
@@ -538,12 +539,13 @@ async function fetchSheet(){
     const iName=hdr.findIndex(h=>h.includes('full name'));
     const iWinner=hdr.findIndex(h=>h.includes('winner'));
     const iAlt=hdr.findIndex(h=>h.includes('alternate'));
-    const iPicks=hdr.findIndex(h=>h.includes('pick 1 to'));
+    const iPicks=hdr.findIndex(h=>h.includes('picks 1')||h.includes('scoring golfers')||h.includes('pick 1 to'));
     if(iName<0||iWinner<0){console.warn('[Masters Pool] Sheet columns not recognized:',hdr);return false;}
     const parsed=rows.slice(1).filter(r=>r[iName]&&r[iWinner]).map(r=>{
       const name=r[iName],winner=r[iWinner].trim(),alternate=(r[iAlt]||'').trim();
       // Picks come as one comma-separated cell from multi-select checkbox
-      const allPicks=iPicks>=0&&r[iPicks]?r[iPicks].split(',').map(s=>s.trim()).filter(Boolean):r.slice(iAlt+1).filter(Boolean);
+      const raw=iPicks>=0&&r[iPicks]?r[iPicks]:r.slice(iAlt+1).filter(Boolean).join(',');
+      const allPicks=raw.split(',').map(s=>s.trim()).filter(Boolean);
       const seen=new Set();
       const picks=[];
       for(const g of allPicks){const k=normName(g);if(seen.has(k)){console.warn(`[Masters Pool] Duplicate pick "${g}" for ${name}, skipping`);}else{seen.add(k);picks.push(g);}}
