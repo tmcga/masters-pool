@@ -46,7 +46,7 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 .pill strong { color:var(--gold); font-size:0.88rem; }
 
 /* ══ TAB NAV ═════════════════════════════════════════════ */
-.tab-nav { background:rgba(0,30,20,0.6); border-bottom:2px solid var(--gold); display:flex; justify-content:center; position:relative; z-index:2; }
+.tab-nav { background:rgba(0,30,20,0.6); border-bottom:2px solid var(--gold); display:flex; justify-content:center; flex-wrap:wrap; position:relative; z-index:2; }
 .tab-btn { padding:13px 28px; font-size:0.82rem; font-family:Arial,sans-serif; color:rgba(255,255,255,0.6); cursor:pointer; border:none; background:transparent; border-bottom:3px solid transparent; margin-bottom:-2px; transition:all 0.2s; letter-spacing:0.5px; }
 .tab-btn:hover { color:rgba(255,255,255,0.9); }
 .tab-btn.active { color:var(--gold); border-bottom-color:var(--gold); font-weight:600; }
@@ -170,13 +170,14 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 .pop-row:last-child { border-bottom:none; }
 .pop-name { min-width:140px; font-size:0.82rem; font-family:Arial,sans-serif; color:#222; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .pop-odds { min-width:52px; font-size:0.72rem; font-weight:700; text-align:right; }
+.pop-score-wrap { min-width:36px; text-align:right; }
 .pop-bar-wrap { flex:1; height:22px; background:#f0f0f0; border-radius:4px; overflow:hidden; }
 .pop-bar { height:100%; border-radius:4px; transition:width 0.4s ease; min-width:2px; }
 .pop-bar.tier-high { background:linear-gradient(90deg,#00573F,#00875F); }
 .pop-bar.tier-mid  { background:linear-gradient(90deg,#C9963B,#F2C55C); }
 .pop-bar.tier-low  { background:#d0d0d0; }
 .pop-count { min-width:36px; font-size:0.82rem; font-weight:700; color:#222; text-align:center; font-family:Arial,sans-serif; }
-.pop-score { min-width:36px; text-align:right; }
+.pop-score-wrap { min-width:36px; text-align:right; }
 
 .cont-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:8px; padding:12px 16px; }
 .cont-item { background:#fdf6e3; border:1px solid rgba(242,197,92,0.3); border-radius:8px; padding:12px 14px; }
@@ -218,12 +219,20 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 @keyframes spin{to{transform:rotate(360deg)}}
 .footer { text-align:center; padding:20px; font-size:0.72rem; color:rgba(255,255,255,0.2); font-family:Arial,sans-serif; letter-spacing:1px; border-top:1px solid rgba(242,197,92,0.1); }
 @media(max-width:600px){
+  /* ── Header ── */
   .hdr-host{font-size:0.85rem;letter-spacing:3px;}
   .masters-logo{height:50px;}
   .hdr-title{font-size:0.9rem;letter-spacing:4px;}
-  .hdr-pills{gap:0;padding-top:8px;}
-  .pill{padding:4px 10px;font-size:0.68rem;}
-  .pill strong{font-size:0.78rem;}
+  .hdr-pills{gap:0;padding:6px 0;}
+  .pill{padding:4px 8px;font-size:0.65rem;}
+  .pill strong{font-size:0.74rem;}
+  /* ── Tabs ── */
+  .tab-btn{padding:10px 12px;font-size:0.72rem;letter-spacing:0;}
+  /* ── General ── */
+  .wrap{padding:14px 10px 32px;}
+  .sec-lbl{font-size:0.6rem;letter-spacing:2px;margin-bottom:6px;}
+  .hide-m{display:none;}
+  /* ── Leaderboard ── */
   .t th,.t td{padding:9px 7px;font-size:0.78rem;}
   .p-name{font-size:0.84rem;}
   .tot{font-size:1rem;}
@@ -231,28 +240,44 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
   .squad-grid{grid-template-columns:1fr;}
   .sq{font-size:0.76rem;padding:6px 8px;}
   .sq-score{font-size:0.8rem;}
-  .hide-m{display:none;}
+  .sq-odds{display:none;}
+  /* ── Odds / Field ── */
   .odds-controls{flex-direction:column;align-items:stretch;}
   .odds-search{width:100%;}
   .odds-grid{grid-template-columns:1fr;}
   .odds-item{padding:8px 10px;font-size:0.78rem;gap:6px;}
   .odds-val{min-width:44px;font-size:0.8rem;}
   .odds-pos{min-width:18px;font-size:0.65rem;}
-  .wrap{padding:16px 10px 40px;}
+  /* ── Signup ── */
   .signup-notice{padding:14px 16px;}
   .signup-notice p{font-size:0.78rem;}
+  .form-frame-wrap iframe{height:5400px;}
+  /* ── Lock screen ── */
   .lock-box{padding:24px 16px;margin:20px auto;}
   .cd-unit{min-width:56px;padding:8px 10px;}
   .cd-num{font-size:1.5rem;}
-  .form-frame-wrap iframe{height:5400px;}
-  .stats-grid{grid-template-columns:1fr;}
-  .pop-name{min-width:100px;font-size:0.76rem;}
-  .pop-odds{min-width:40px;font-size:0.68rem;}
+  /* ── Stats ── */
+  .stats-grid{grid-template-columns:1fr;gap:16px;}
+  .pop-row{gap:6px;}
+  .pop-name{min-width:90px;font-size:0.74rem;}
+  .pop-odds{display:none;}
+  .pop-bar-wrap{height:18px;}
+  .pop-count{font-size:0.74rem;min-width:30px;}
+  .pop-score-wrap{display:none;}
+  .pop-score{display:none;}
   .cont-grid{grid-template-columns:1fr;}
+  .cont-item{padding:10px 12px;}
   .winner-grid{grid-template-columns:1fr;}
-  .matrix th.rotate{font-size:0.6rem;}
-  .matrix td{padding:6px 4px;font-size:0.75rem;min-width:40px;}
+  .winner-card{padding:12px;}
+  .matrix th.rotate{font-size:0.58rem;min-width:28px;}
+  .matrix td{padding:5px 3px;font-size:0.72rem;min-width:34px;}
+  .matrix th{padding:6px 3px;font-size:0.62rem;}
   .live-stats-grid{grid-template-columns:1fr;}
+  .live-stat-card{padding:14px;}
+  .coverage-body{padding:18px 16px;}
+  .coverage-num{font-size:1.8rem;}
+  .coverage-sub{font-size:0.72rem;}
+  /* ── Footer ── */
   .footer{font-size:0.62rem;letter-spacing:0.5px;}
 }
 </style>
@@ -684,7 +709,7 @@ function renderStats(){
     const pctBar=(count/totalParts*100).toFixed(0);
     const tier=count>=totalParts*0.75?'tier-high':count>=totalParts*0.25?'tier-mid':'tier-low';
     const o=ODDS[g]||'';
-    popHtml+=`<div class="pop-row"><span class="pop-name">${esc(g)}</span><span class="pop-odds ${oddsColor(o)}">${esc(o)}</span><div class="pop-bar-wrap"><div class="pop-bar ${tier}" style="width:${pctBar}%"></div></div><span class="pop-count">${count}/${totalParts}</span>${hasScores()?`<span class="pop-score">${fmtGolfer(g)}</span>`:''}</div>`;
+    popHtml+=`<div class="pop-row"><span class="pop-name">${esc(g)}</span><span class="pop-odds ${oddsColor(o)}">${esc(o)}</span><div class="pop-bar-wrap"><div class="pop-bar ${tier}" style="width:${pctBar}%"></div></div><span class="pop-count">${count}/${totalParts}</span>${hasScores()?`<span class="pop-score-wrap">${fmtGolfer(g)}</span>`:''}</div>`;
   }
   popHtml+='</div>';
 
