@@ -338,7 +338,7 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
     </div>
   </div>
   <div id="live-board" style="display:none">
-    <div class="sec-lbl">Pool Leaderboard</div>
+    <div class="sec-lbl">Pool Leaderboard <span id="last-refresh" style="float:right;font-weight:400;opacity:0.7;text-transform:none;letter-spacing:0"></span></div>
     <div class="card">
       <div id="standings-container"><div class="loading"><div class="spinner"></div>Calculating…</div></div>
     </div>
@@ -795,6 +795,8 @@ async function doRefresh(){
   if(espnRes&&liveParts.length>0)warnUnmatched();
   if(isRevealed()){renderStandings();renderFieldLive();renderStats();}else{updateLockedNames();}
   renderOdds();
+  const lr=document.getElementById('last-refresh');
+  if(lr)lr.textContent='Updated '+new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
 }
 
 // ── Init ─────────────────────────────────────────────────
