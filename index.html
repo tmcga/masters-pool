@@ -230,7 +230,7 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
   <!-- STATUS BAR -->
   <div class="status-bar">
     <div class="s-item"><span class="dot" id="espn-dot"></span><span id="espn-txt">Connecting…</span></div>
-    <div class="s-item"><span class="dot" id="sheet-dot"></span><span id="sheet-txt">Sheet: —</span></div>
+    <div class="s-item"><span class="dot" id="sheet-dot"></span><span id="sheet-txt">Picks: —</span></div>
     <div class="s-item" id="last-updated"></div>
     <button class="refresh-btn" id="refresh-btn" onclick="doRefresh()">↻ Refresh</button>
   </div>
@@ -313,21 +313,12 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 // ██  CONFIG  ██
 // ════════════════════════════════════════════════════════
 
-// Paste your Google Sheets CSV link here.
-// ⚠️  IMPORTANT: Publish the "Public Picks" tab — NOT "Form Responses".
-// Form Responses contains emails. Public Picks is safe to share.
-// (File → Share → Publish to web → select "Public Picks" → CSV → Publish → copy link)
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQpkhnMMTD0_ZiiJcfHJHEtACREl4c2Jk1rnROSZtdGUsAjY7Ejhz80fe9psVknBk-sx_tvz5q8LxTx/pub?gid=1017839321&single=true&output=csv";
-
 // Google Form embed URL
 const FORM_EMBED_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdKnigB3p7isTO0DPcTLgWAjEu9Z-pusUMR0xzaliS4YWU1VQ/viewform?embedded=true";
 
 // Picks lock at first tee
 const REVEAL_DATE = new Date('2026-04-09T08:00:00-04:00');
 const FORCE_REVEAL = false;  // set true to bypass lock for testing
-
-// Fallback picks (only used when Sheet URL is not configured at all)
-const PARTICIPANTS = [];
 
 // ════════════════════════════════════════════════════════
 // Odds — Polymarket live + hardcoded fallback
@@ -415,7 +406,10 @@ function oddsColor(o){ const n=parseInt(o); if(isNaN(n))return'odds-field'; if(M
 // ════════════════════════════════════════════════════════
 // State
 // ════════════════════════════════════════════════════════
-let scores={}, tourneyStatus='idle', roundLabel='', currentRound=0, expanded=new Set(), liveParts=[...PARTICIPANTS], picksSource='none';
+let scores={}, tourneyStatus='idle', roundLabel='', currentRound=0, expanded=new Set(), liveParts=[];
+
+// ── HTML escape (prevent XSS from user-submitted names) ──
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
 // ── Tab nav ──────────────────────────────────────────────
 function showTab(name,btn){
@@ -516,57 +510,20 @@ function loadDemo(){
   tourneyStatus='demo';roundLabel='Sample Data';
 }
 
-// ── Sheet CSV ────────────────────────────────────────────
-function parseCSV(txt){
-  const rows=[];let row=[],f='',q=false;
-  for(let i=0;i<txt.length;i++){
-    const c=txt[i],n=txt[i+1];
-    if(q){if(c==='"'&&n==='"'){f+='"';i++;}else if(c==='"')q=false;else f+=c;}
-    else{if(c==='"')q=true;else if(c===','){row.push(f.trim());f='';}else if(c==='\n'||(c==='\r'&&n==='\n')){row.push(f.trim());rows.push(row);row=[];f='';if(c==='\r')i++;}else f+=c;}
-  }
-  if(f||row.length){row.push(f.trim());rows.push(row);}
-  return rows;
-}
-async function fetchPicksJSON(){
+// ── Picks (from backend-synced JSON) ─────────────────────
+async function fetchPicks(){
   try{
     const r=await fetch('data/picks.json?_t='+Date.now(),{cache:'no-store'});
     if(!r.ok)return false;
     const data=await r.json();
     if(!data.participants||data.participants.length===0)return false;
-    liveParts=data.participants;picksSource='json';
+    liveParts=data.participants;
     return true;
-  }catch(e){return false;}
-}
-async function fetchSheet(){
-  if(!SHEET_CSV_URL)return false;
-  try{
-    const url=SHEET_CSV_URL+(SHEET_CSV_URL.includes('?')?'&':'?')+'_t='+Date.now();
-    const r=await fetch(url,{cache:'no-store'});if(!r.ok)return false;
-    const rows=parseCSV(await r.text());if(rows.length<2)return false;
-    // Form Responses columns: [0]=Timestamp [1]=Email [2]=Name [3]=Winner [4]=Alternate [5]=Picks (comma-separated multi-select)
-    // Columns 6+ are duplicates from an extra form section — ignored.
-    const hdr=(rows[0]||[]).map(h=>h.toLowerCase());
-    const iName=hdr.findIndex(h=>h.includes('full name'));
-    const iWinner=hdr.findIndex(h=>h.includes('winner'));
-    const iAlt=hdr.findIndex(h=>h.includes('alternate'));
-    const iPicks=hdr.findIndex(h=>h.includes('picks 1')||h.includes('scoring golfers')||h.includes('pick 1 to'));
-    if(iName<0||iWinner<0){console.warn('[Masters Pool] Sheet columns not recognized:',hdr);return false;}
-    const parsed=rows.slice(1).filter(r=>r[iName]&&r[iWinner]).map(r=>{
-      const name=r[iName],winner=r[iWinner].trim(),alternate=(r[iAlt]||'').trim();
-      // Picks come as one comma-separated cell from multi-select checkbox
-      const raw=iPicks>=0&&r[iPicks]?r[iPicks]:r.slice(iAlt+1).filter(Boolean).join(',');
-      const allPicks=raw.split(',').map(s=>s.trim()).filter(Boolean);
-      const seen=new Set();
-      const picks=[];
-      for(const g of allPicks){const k=normName(g);if(seen.has(k)){console.warn(`[Masters Pool] Duplicate pick "${g}" for ${name}, skipping`);}else{seen.add(k);picks.push(g);}}
-      return{name,winner,alternate,picks};
-    }).filter(p=>p.picks.length>0);
-    liveParts=parsed;picksSource='sheet';return true;
   }catch(e){return false;}
 }
 
 // ── Status bar ───────────────────────────────────────────
-function updateStatus(espn,sheet){
+function updateStatus(espn,picks){
   document.getElementById('last-updated').textContent='Updated '+new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
   const ed=document.getElementById('espn-dot'),et=document.getElementById('espn-txt');
   if(!espn){ed.className='dot warn';et.textContent='Scores unavailable';}
@@ -575,9 +532,7 @@ function updateStatus(espn,sheet){
   else if(tourneyStatus==='demo'){ed.className='dot demo';et.textContent='Demo data';}
   else{ed.className='dot idle';et.textContent=roundLabel||'Not yet started';}
   const sd=document.getElementById('sheet-dot'),st=document.getElementById('sheet-txt');
-  if(sheet&&picksSource==='json'){sd.className='dot ok';st.textContent=`Picks: ${liveParts.length} entries`;}
-  else if(sheet&&picksSource==='sheet'){sd.className='dot ok';st.textContent=`Sheet: ${liveParts.length} entries`;}
-  else if(!SHEET_CSV_URL){sd.className='dot off';st.textContent='Picks: not linked';}
+  if(picks){sd.className='dot ok';st.textContent=`Picks: ${liveParts.length} entries`;}
   else{sd.className='dot warn';st.textContent='Picks: unreachable';}
 }
 
@@ -594,7 +549,7 @@ function renderStandings(){
     const wp=winProbs[i];
     const wpTxt=hasScores()?`<span class="wp${wp>=0.25?' wp-hot':wp>=0.10?' wp-warm':''}">${(wp*100).toFixed(1)}%</span>`:'<span class="sna">—</span>';
     h+=`<tr class="pr${exp?' expanded':''}" onclick="toggleRow(${i})">`;
-    h+=`<td>${medal}</td><td class="L"><span class="p-name">${p.name}</span><span class="chev${exp?' open':''}">▼</span></td>`;
+    h+=`<td>${medal}</td><td class="L"><span class="p-name">${esc(p.name)}</span><span class="chev${exp?' open':''}">▼</span></td>`;
     h+=`<td><span class="tot${pos===1&&hasScores()?' lead':''}">${hasScores()?fmt(p.total):'<span class="sna">—</span>'}</span>${p.ua?'<span class="alt-in">ALT IN</span>':''}</td>`;
     h+=`<td>${wpTxt}</td></tr>`;
     if(exp)h+=`<tr class="squad-tr"><td colspan="4">${buildSquad(p)}</td></tr>`;
@@ -604,16 +559,16 @@ function renderStandings(){
 }
 function buildSquad(p){
   let ua=false;
-  let h=`<div class="squad-p"><div class="squad-ttl">${p.name} — Full Squad · 21 Golfers + Alternate</div><div class="squad-grid">`;
+  let h=`<div class="squad-p"><div class="squad-ttl">${esc(p.name)} — Full Squad · 21 Golfers + Alternate</div><div class="squad-grid">`;
   p.picks.forEach(g=>{
     const isWinner=normName(g)===normName(p.winner);
     const gwd=isWD(g);let cls=isWinner?'win':'',badge=isWinner?'<span class="sq-badge w">Win</span>':'';
     if(gwd&&!ua){cls='wdc';badge='<span class="sq-badge s">→Alt</span>';ua=true;}
     const go=ODDS[g]||'';
-    h+=`<div class="sq ${cls}"><span>${badge}${g}</span><div class="sq-right"><span class="sq-score">${fmtGolfer(g)}</span><span class="sq-odds">${go}</span></div></div>`;
+    h+=`<div class="sq ${cls}"><span>${badge}${esc(g)}</span><div class="sq-right"><span class="sq-score">${fmtGolfer(g)}</span><span class="sq-odds">${esc(go)}</span></div></div>`;
   });
   const ao=ODDS[p.alternate]||'';
-  h+=`<div class="sq alt"><span><span class="sq-badge a">Alt</span>${p.alternate}</span><div class="sq-right"><span class="sq-score">${fmtGolfer(p.alternate)}</span><span class="sq-odds">${ao}</span></div></div>`;
+  h+=`<div class="sq alt"><span><span class="sq-badge a">Alt</span>${esc(p.alternate)}</span><div class="sq-right"><span class="sq-score">${fmtGolfer(p.alternate)}</span><span class="sq-odds">${esc(ao)}</span></div></div>`;
   return h+'</div></div>';
 }
 function toggleRow(idx){if(expanded.has(idx))expanded.delete(idx);else expanded.add(idx);renderStandings();}
@@ -661,7 +616,7 @@ const isRevealed=()=>FORCE_REVEAL||new Date()>=REVEAL_DATE;
 
 function updateLockedNames(){
   const el=document.getElementById('locked-names');if(!el||liveParts.length===0)return;
-  el.innerHTML='<div style="font-size:0.66rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-family:Arial,sans-serif;margin-bottom:8px">Entries Locked In</div>'+liveParts.map(p=>`<span class="lname">${p.name}</span>`).join('');
+  el.innerHTML='<div style="font-size:0.66rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-family:Arial,sans-serif;margin-bottom:8px">Entries Locked In</div>'+liveParts.map(p=>`<span class="lname">${esc(p.name)}</span>`).join('');
   document.getElementById('entry-count').textContent=liveParts.length;
   document.getElementById('pot-total').textContent='$'+(liveParts.length*120);
 }
@@ -669,7 +624,7 @@ function updateLockedNames(){
 // ── Main refresh ─────────────────────────────────────────
 async function doRefresh(){
   const btn=document.getElementById('refresh-btn');btn.disabled=true;btn.textContent='↻ Loading…';
-  const[picksRes,espnRes,polyRes]=await Promise.all([fetchPicksJSON().then(ok=>ok||fetchSheet()),fetchESPN(),fetchPolymarket()]);
+  const[picksRes,espnRes,polyRes]=await Promise.all([fetchPicks(),fetchESPN(),fetchPolymarket()]);
   if(!espnRes&&!hasScores())loadDemo();
   updateStatus(espnRes,picksRes);
   if(espnRes&&liveParts.length>0)warnUnmatched();
@@ -684,7 +639,7 @@ async function init(){
   if(FORM_EMBED_URL) document.getElementById('form-iframe').src=FORM_EMBED_URL;
 
   renderOdds();
-  await fetchPicksJSON()||await fetchSheet();
+  await fetchPicks();
   updateLockedNames();
 
   if(isRevealed()){
@@ -692,13 +647,11 @@ async function init(){
     document.getElementById('live-board').style.display='block';
     await doRefresh();
     setInterval(()=>{if(tourneyStatus==='live')doRefresh();},5*60*1000);
-    setInterval(async()=>{await fetchPicksJSON()||await fetchSheet();renderStandings();},10*60*1000);
   } else {
     document.getElementById('lock-screen').style.display='block';
     document.getElementById('live-board').style.display='none';
     updateCD();
-    const cdInterval=setInterval(()=>{updateCD();if(isRevealed()){clearInterval(cdInterval);clearInterval(sheetPollInterval);document.getElementById('lock-screen').style.display='none';document.getElementById('live-board').style.display='block';doRefresh();setInterval(()=>{if(tourneyStatus==='live')doRefresh();},5*60*1000);setInterval(async()=>{await fetchPicksJSON()||await fetchSheet();renderStandings();},10*60*1000);}},1000);
-    const sheetPollInterval=setInterval(async()=>{const ok=await fetchPicksJSON()||await fetchSheet();updateStatus(false,ok);updateLockedNames();},60*1000);
+    const cdInterval=setInterval(()=>{updateCD();if(isRevealed()){clearInterval(cdInterval);document.getElementById('lock-screen').style.display='none';document.getElementById('live-board').style.display='block';doRefresh();setInterval(()=>{if(tourneyStatus==='live')doRefresh();},5*60*1000);}},1000);
   }
 }
 

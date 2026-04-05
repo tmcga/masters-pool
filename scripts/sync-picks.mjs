@@ -38,6 +38,9 @@ function parseCSV(txt) {
   return rows;
 }
 
+// ── Sanitize (strip HTML tags from user input) ──────────
+const sanitize = s => s.replace(/<[^>]*>/g, '').trim();
+
 // ── Name normalization (mirrors index.html normName) ────
 const normName = s =>
   s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
@@ -74,12 +77,12 @@ async function main() {
   const participants = rows.slice(1)
     .filter(r => r[iName] && r[iWinner])
     .map(r => {
-      const name = r[iName];
-      const winner = r[iWinner].trim();
-      const alternate = (r[iAlt] || '').trim();
+      const name = sanitize(r[iName]);
+      const winner = sanitize(r[iWinner]);
+      const alternate = sanitize(r[iAlt] || '');
 
       const raw = iPicks >= 0 && r[iPicks] ? r[iPicks] : r.slice(iAlt + 1).filter(Boolean).join(',');
-      const allPicks = raw.split(',').map(s => s.trim()).filter(Boolean);
+      const allPicks = raw.split(',').map(s => sanitize(s)).filter(Boolean);
 
       const seen = new Set();
       const picks = [];
