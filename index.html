@@ -695,7 +695,7 @@ function buildGolferDetail(g){
 }
 function buildSquad(p){
   let ua=false;
-  let h=`<div class="squad-p"><div class="squad-ttl">${esc(p.name)} — Full Squad · 21 Golfers + Alternate</div><div class="squad-grid">`;
+  let h=`<div class="squad-p"><div class="squad-ttl">${esc(p.name)} — Winner: ${esc(p.winner)}</div><div class="squad-grid">`;
   p.picks.forEach(g=>{
     const isWinner=normName(g)===normName(p.winner);
     const gwd=isWD(g);let cls=isWinner?'win':'',badge=isWinner?'<span class="sq-badge w">Win</span>':'';
