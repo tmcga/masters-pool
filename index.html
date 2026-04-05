@@ -128,6 +128,27 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 .sq-right { display:flex; flex-direction:column; align-items:flex-end; gap:2px; }
 .sq-score { font-weight:700; font-size:0.86rem; min-width:32px; text-align:right; }
 .sq-odds { font-size:0.62rem; color:#999; text-align:right; }
+.sq { cursor:pointer; transition:background 0.15s; }
+.sq:hover { background:#f5f5f5; }
+.sq.win:hover { background:#faf0d5; }
+
+.sq-detail { background:#f9f9f9; border:1px solid #e0e0e0; border-top:none; border-radius:0 0 7px 7px; padding:12px 14px; margin-top:-7px; margin-bottom:6px; font-family:Arial,sans-serif; }
+.sq-detail-hdr { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.sq-headshot { width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid #e0e0e0; flex-shrink:0; }
+.sq-flag { width:18px; height:14px; object-fit:cover; vertical-align:middle; }
+.sq-pos-badge { display:inline-block; background:var(--green-dark); color:#fff; font-size:0.68rem; font-weight:700; padding:2px 8px; border-radius:4px; }
+.sq-mv { font-size:0.72rem; font-weight:700; }
+.sq-mv.up { color:#c8102e; }
+.sq-mv.down { color:var(--green-dark); }
+.sq-mv.flat { color:#999; }
+.sq-detail-name { font-size:0.88rem; font-weight:700; color:#222; }
+.sq-rounds { width:100%; border-collapse:collapse; font-size:0.75rem; }
+.sq-rounds th { text-align:center; padding:5px 8px; font-size:0.62rem; text-transform:uppercase; letter-spacing:1px; color:#999; font-weight:600; border-bottom:1px solid #e0e0e0; }
+.sq-rounds th:first-child { text-align:left; }
+.sq-rounds td { text-align:center; padding:5px 8px; border-bottom:1px solid #f0f0f0; color:#222; }
+.sq-rounds td:first-child { text-align:left; color:#999; font-weight:600; }
+.sq-rounds tr:last-child td { border-bottom:none; }
+.sq-status-line { font-size:0.7rem; color:#888; margin-top:8px; }
 
 /* ══ ODDS / FIELD BOARD ══════════════════════════════════ */
 .odds-controls { display:flex; gap:10px; align-items:center; margin-bottom:10px; flex-wrap:wrap; }
@@ -246,6 +267,11 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
   .sq{font-size:0.76rem;padding:6px 8px;}
   .sq-score{font-size:0.8rem;}
   .sq-odds{display:none;}
+  .sq-detail{padding:10px 12px;}
+  .sq-headshot{width:36px;height:36px;}
+  .sq-detail-name{font-size:0.8rem;}
+  .sq-rounds{font-size:0.7rem;}
+  .sq-rounds th,.sq-rounds td{padding:4px 6px;}
   /* ── Odds / Field ── */
   .odds-controls{flex-direction:column;align-items:stretch;}
   .odds-search{width:100%;}
@@ -490,7 +516,7 @@ function oddsColor(o){ const n=parseInt(o); if(isNaN(n))return'odds-field'; if(M
 // ════════════════════════════════════════════════════════
 // State
 // ════════════════════════════════════════════════════════
-let scores={}, tourneyStatus='idle', roundLabel='', currentRound=0, expanded=new Set(), liveParts=[];
+let scores={}, tourneyStatus='idle', roundLabel='', currentRound=0, expanded=new Set(), expandedGolfers=new Set(), liveParts=[];
 
 // ── HTML escape (prevent XSS from user-submitted names) ──
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -584,7 +610,14 @@ function parseESPN(data){
     let tp=c.statistics?.find(s=>s.name==='scoreToPar')?.displayValue??null;
     if(tp===null)tp=c.score?.displayValue??c.score?.value??null;
     if(st2==='WD')tp=st2;
-    ns[name]={tp,st:st2,thru:c.status?.type?.shortDetail||''};
+    const rounds=(c.linescores||[]).filter(l=>l.value).map(l=>({rd:l.period,score:l.value,toPar:l.displayValue||'',front:l.outScore??null,back:l.inScore??null}));
+    const pos=c.status?.position?.displayName||'';
+    const mv=c.movement||0;
+    const hole=c.status?.hole??null;
+    const headshot=c.athlete?.headshot?.href||'';
+    const flag=c.athlete?.flag?.href||'';
+    const country=c.athlete?.flag?.alt||'';
+    ns[name]={tp,st:st2,thru:c.status?.type?.shortDetail||'',pos,mv,hole,headshot,flag,country,rounds};
   }
   if(Object.keys(ns).length>0){scores=ns;buildNameMap();}
 }
@@ -629,6 +662,37 @@ function renderStandings(){
   h+='</tbody></table>';
   el.innerHTML=h;
 }
+function buildGolferDetail(g){
+  const s=getScore(g);
+  if(!s||!hasScores())return'<div class="sq-detail"><span class="sq-status-line">No scoring data available yet.</span></div>';
+  let h='<div class="sq-detail"><div class="sq-detail-hdr">';
+  if(s.headshot)h+=`<img class="sq-headshot" src="${s.headshot}" alt="" loading="lazy">`;
+  h+=`<div><div class="sq-detail-name">${esc(g)}`;
+  if(s.flag)h+=` <img class="sq-flag" src="${s.flag}" alt="${esc(s.country||'')}" loading="lazy">`;
+  h+='</div><div>';
+  if(s.pos)h+=`<span class="sq-pos-badge">${esc(s.pos)}</span> `;
+  if(s.mv>0)h+=`<span class="sq-mv up">↑${s.mv}</span>`;
+  else if(s.mv<0)h+=`<span class="sq-mv down">↓${Math.abs(s.mv)}</span>`;
+  else if(s.pos)h+=`<span class="sq-mv flat">—</span>`;
+  h+='</div></div></div>';
+  if(s.rounds&&s.rounds.length>0){
+    h+='<table class="sq-rounds"><thead><tr><th></th><th>Score</th><th>To Par</th><th>Front</th><th>Back</th></tr></thead><tbody>';
+    for(let i=0;i<4;i++){
+      const r=s.rounds[i];
+      if(r)h+=`<tr><td>R${r.rd}</td><td>${r.score}</td><td>${fmt(r.toPar)}</td><td>${r.front??'—'}</td><td>${r.back??'—'}</td></tr>`;
+      else h+=`<tr><td>R${i+1}</td><td>—</td><td><span class="sna">—</span></td><td>—</td><td>—</td></tr>`;
+    }
+    h+='</tbody></table>';
+  }
+  let status='';
+  if(s.st==='WD')status='Withdrawn';
+  else if(s.st==='CUT')status='Missed Cut';
+  else if(s.hole)status=`On hole ${s.hole}`;
+  else if(tourneyStatus==='final')status='Tournament Complete';
+  else status=s.thru||'';
+  if(status)h+=`<div class="sq-status-line">${esc(status)}</div>`;
+  return h+'</div>';
+}
 function buildSquad(p){
   let ua=false;
   let h=`<div class="squad-p"><div class="squad-ttl">${esc(p.name)} — Full Squad · 21 Golfers + Alternate</div><div class="squad-grid">`;
@@ -637,12 +701,19 @@ function buildSquad(p){
     const gwd=isWD(g);let cls=isWinner?'win':'',badge=isWinner?'<span class="sq-badge w">Win</span>':'';
     if(gwd&&!ua){cls='wdc';badge='<span class="sq-badge s">→Alt</span>';ua=true;}
     const go=ODDS[g]||'';
-    h+=`<div class="sq ${cls}"><span>${badge}${esc(g)}</span><div class="sq-right"><span class="sq-score">${fmtGolfer(g)}</span><span class="sq-odds">${esc(go)}</span></div></div>`;
+    const gKey=normName(g),isExp=expandedGolfers.has(gKey);
+    h+=`<div><div class="sq ${cls}" onclick="toggleGolfer('${gKey.replace(/'/g,"\\'")}',event)"><span>${badge}${esc(g)}</span><div class="sq-right"><span class="sq-score">${fmtGolfer(g)}</span><span class="sq-odds">${esc(go)}</span></div></div>`;
+    if(isExp)h+=buildGolferDetail(g);
+    h+='</div>';
   });
   const ao=ODDS[p.alternate]||'';
-  h+=`<div class="sq alt"><span><span class="sq-badge a">Alt</span>${esc(p.alternate)}</span><div class="sq-right"><span class="sq-score">${fmtGolfer(p.alternate)}</span><span class="sq-odds">${esc(ao)}</span></div></div>`;
+  const aKey=normName(p.alternate),aExp=expandedGolfers.has(aKey);
+  h+=`<div><div class="sq alt" onclick="toggleGolfer('${aKey.replace(/'/g,"\\'")}',event)"><span><span class="sq-badge a">Alt</span>${esc(p.alternate)}</span><div class="sq-right"><span class="sq-score">${fmtGolfer(p.alternate)}</span><span class="sq-odds">${esc(ao)}</span></div></div>`;
+  if(aExp)h+=buildGolferDetail(p.alternate);
+  h+='</div>';
   return h+'</div></div>';
 }
+function toggleGolfer(key,evt){evt.stopPropagation();if(expandedGolfers.has(key))expandedGolfers.delete(key);else expandedGolfers.add(key);renderStandings();}
 function toggleRow(idx){if(expanded.has(idx))expanded.delete(idx);else expanded.add(idx);renderStandings();}
 
 // ── Live field (standings tab) ────────────────────────────
