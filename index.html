@@ -415,7 +415,7 @@ function oddsColor(o){ const n=parseInt(o); if(isNaN(n))return'odds-field'; if(M
 // ════════════════════════════════════════════════════════
 // State
 // ════════════════════════════════════════════════════════
-let scores={}, tourneyStatus='idle', roundLabel='', currentRound=0, expanded=new Set(), liveParts=[...PARTICIPANTS];
+let scores={}, tourneyStatus='idle', roundLabel='', currentRound=0, expanded=new Set(), liveParts=[...PARTICIPANTS], picksSource='none';
 
 // ── Tab nav ──────────────────────────────────────────────
 function showTab(name,btn){
@@ -527,6 +527,16 @@ function parseCSV(txt){
   if(f||row.length){row.push(f.trim());rows.push(row);}
   return rows;
 }
+async function fetchPicksJSON(){
+  try{
+    const r=await fetch('data/picks.json?_t='+Date.now(),{cache:'no-store'});
+    if(!r.ok)return false;
+    const data=await r.json();
+    if(!data.participants||data.participants.length===0)return false;
+    liveParts=data.participants;picksSource='json';
+    return true;
+  }catch(e){return false;}
+}
 async function fetchSheet(){
   if(!SHEET_CSV_URL)return false;
   try{
@@ -551,7 +561,7 @@ async function fetchSheet(){
       for(const g of allPicks){const k=normName(g);if(seen.has(k)){console.warn(`[Masters Pool] Duplicate pick "${g}" for ${name}, skipping`);}else{seen.add(k);picks.push(g);}}
       return{name,winner,alternate,picks};
     }).filter(p=>p.picks.length>0);
-    liveParts=parsed;return true;
+    liveParts=parsed;picksSource='sheet';return true;
   }catch(e){return false;}
 }
 
@@ -565,9 +575,10 @@ function updateStatus(espn,sheet){
   else if(tourneyStatus==='demo'){ed.className='dot demo';et.textContent='Demo data';}
   else{ed.className='dot idle';et.textContent=roundLabel||'Not yet started';}
   const sd=document.getElementById('sheet-dot'),st=document.getElementById('sheet-txt');
-  if(!SHEET_CSV_URL){sd.className='dot off';st.textContent='Sheet: not linked';}
-  else if(sheet){sd.className='dot ok';st.textContent=`Sheet: ${liveParts.length} entries`;}
-  else{sd.className='dot warn';st.textContent='Sheet: unreachable';}
+  if(sheet&&picksSource==='json'){sd.className='dot ok';st.textContent=`Picks: ${liveParts.length} entries`;}
+  else if(sheet&&picksSource==='sheet'){sd.className='dot ok';st.textContent=`Sheet: ${liveParts.length} entries`;}
+  else if(!SHEET_CSV_URL){sd.className='dot off';st.textContent='Picks: not linked';}
+  else{sd.className='dot warn';st.textContent='Picks: unreachable';}
 }
 
 // ── Render standings ─────────────────────────────────────
@@ -658,9 +669,9 @@ function updateLockedNames(){
 // ── Main refresh ─────────────────────────────────────────
 async function doRefresh(){
   const btn=document.getElementById('refresh-btn');btn.disabled=true;btn.textContent='↻ Loading…';
-  const[sheetRes,espnRes,polyRes]=await Promise.all([fetchSheet(),fetchESPN(),fetchPolymarket()]);
+  const[picksRes,espnRes,polyRes]=await Promise.all([fetchPicksJSON().then(ok=>ok||fetchSheet()),fetchESPN(),fetchPolymarket()]);
   if(!espnRes&&!hasScores())loadDemo();
-  updateStatus(espnRes,sheetRes);
+  updateStatus(espnRes,picksRes);
   if(espnRes&&liveParts.length>0)warnUnmatched();
   if(isRevealed()){renderStandings();renderFieldLive();}else{updateLockedNames();}
   renderOdds();
@@ -673,7 +684,7 @@ async function init(){
   if(FORM_EMBED_URL) document.getElementById('form-iframe').src=FORM_EMBED_URL;
 
   renderOdds();
-  const sheetRes=await fetchSheet();
+  await fetchPicksJSON()||await fetchSheet();
   updateLockedNames();
 
   if(isRevealed()){
@@ -681,13 +692,13 @@ async function init(){
     document.getElementById('live-board').style.display='block';
     await doRefresh();
     setInterval(()=>{if(tourneyStatus==='live')doRefresh();},5*60*1000);
-    setInterval(async()=>{await fetchSheet();renderStandings();},10*60*1000);
+    setInterval(async()=>{await fetchPicksJSON()||await fetchSheet();renderStandings();},10*60*1000);
   } else {
     document.getElementById('lock-screen').style.display='block';
     document.getElementById('live-board').style.display='none';
     updateCD();
-    const cdInterval=setInterval(()=>{updateCD();if(isRevealed()){clearInterval(cdInterval);clearInterval(sheetPollInterval);document.getElementById('lock-screen').style.display='none';document.getElementById('live-board').style.display='block';doRefresh();setInterval(()=>{if(tourneyStatus==='live')doRefresh();},5*60*1000);setInterval(async()=>{await fetchSheet();renderStandings();},10*60*1000);}},1000);
-    const sheetPollInterval=setInterval(async()=>{const ok=await fetchSheet();updateStatus(false,ok);updateLockedNames();},60*1000);
+    const cdInterval=setInterval(()=>{updateCD();if(isRevealed()){clearInterval(cdInterval);clearInterval(sheetPollInterval);document.getElementById('lock-screen').style.display='none';document.getElementById('live-board').style.display='block';doRefresh();setInterval(()=>{if(tourneyStatus==='live')doRefresh();},5*60*1000);setInterval(async()=>{await fetchPicksJSON()||await fetchSheet();renderStandings();},10*60*1000);}},1000);
+    const sheetPollInterval=setInterval(async()=>{const ok=await fetchPicksJSON()||await fetchSheet();updateStatus(false,ok);updateLockedNames();},60*1000);
   }
 }
 
