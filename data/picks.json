@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-06T20:08:19.381Z",
+  "updated": "2026-04-06T20:54:52.387Z",
   "participants": [
     {
       "name": "Patrick Downey",
@@ -419,6 +419,34 @@
         "Tommy Fleetwood",
         "Xander Schauffele",
         "Gary Woodland"
+      ]
+    },
+    {
+      "name": "Michael Perkowski",
+      "winner": "Cameron Young",
+      "alternate": "Matt Fitzpatrick",
+      "picks": [
+        "Adam Scott",
+        "Akshay Bhatia",
+        "Brooks Koepka",
+        "Bryson DeChambeau",
+        "Cameron Young",
+        "Chris Gotterup",
+        "Collin Morikawa",
+        "Daniel Berger",
+        "Harris English",
+        "Hideki Matsuyama",
+        "J.J. Spaun",
+        "Justin Rose",
+        "Justin Thomas",
+        "Ludvig Åberg",
+        "Rory McIlroy",
+        "Sam Burns",
+        "Scottie Scheffler",
+        "Shane Lowry",
+        "Si Woo Kim",
+        "Tommy Fleetwood",
+        "Xander Schauffele"
       ]
     }
   ]
