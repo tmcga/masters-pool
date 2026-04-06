@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-06T11:31:43.424Z",
+  "updated": "2026-04-06T12:33:55.429Z",
   "participants": [
     {
       "name": "Patrick Downey",
@@ -307,6 +307,62 @@
         "Viktor Hovland",
         "Xander Schauffele",
         "Zach Johnson"
+      ]
+    },
+    {
+      "name": "Chuck Stiene",
+      "winner": "Scottie Scheffler",
+      "alternate": "Akshay Bhatia",
+      "picks": [
+        "Bryson DeChambeau",
+        "Cameron Young",
+        "Chris Gotterup",
+        "Collin Morikawa",
+        "Hideki Matsuyama",
+        "Jacob Bridgeman",
+        "Jon Rahm",
+        "Jordan Spieth",
+        "Justin Rose",
+        "Justin Thomas",
+        "Ludvig Åberg",
+        "Matt Fitzpatrick",
+        "Min Woo Lee",
+        "Patrick Cantlay",
+        "Robert MacIntyre",
+        "Rory McIlroy",
+        "Scottie Scheffler",
+        "Tommy Fleetwood",
+        "Tyrrell Hatton",
+        "Viktor Hovland",
+        "Xander Schauffele"
+      ]
+    },
+    {
+      "name": "Gerard Costello",
+      "winner": "Scottie Scheffler",
+      "alternate": "Jake Knapp",
+      "picks": [
+        "Adam Scott",
+        "Akshay Bhatia",
+        "Brooks Koepka",
+        "Bryson DeChambeau",
+        "Cameron Young",
+        "Chris Gotterup",
+        "Corey Conners",
+        "Jacob Bridgeman",
+        "Jason Day",
+        "Jon Rahm",
+        "Justin Rose",
+        "Justin Thomas",
+        "Ludvig Åberg",
+        "Matt Fitzpatrick",
+        "Nicolai Hojgaard",
+        "Robert MacIntyre",
+        "Rory McIlroy",
+        "Scottie Scheffler",
+        "Tommy Fleetwood",
+        "Xander Schauffele",
+        "Gary Woodland"
       ]
     }
   ]
