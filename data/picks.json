@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-06T04:39:50.174Z",
+  "updated": "2026-04-06T06:01:39.182Z",
   "participants": [
     {
       "name": "Patrick Downey",
@@ -279,6 +279,34 @@
         "Tommy Fleetwood",
         "Viktor Hovland",
         "Xander Schauffele"
+      ]
+    },
+    {
+      "name": "Monica Macaluso",
+      "winner": "Scottie Scheffler",
+      "alternate": "Akshay Bhatia",
+      "picks": [
+        "Brooks Koepka",
+        "Bryson DeChambeau",
+        "Cameron Young",
+        "Collin Morikawa",
+        "Hideki Matsuyama",
+        "Jon Rahm",
+        "Jordan Spieth",
+        "Justin Rose",
+        "Ludvig Åberg",
+        "Matt Fitzpatrick",
+        "Patrick Reed",
+        "Rory McIlroy",
+        "Scottie Scheffler",
+        "Sepp Straka",
+        "Shane Lowry",
+        "Si Woo Kim",
+        "Tommy Fleetwood",
+        "Tyrrell Hatton",
+        "Viktor Hovland",
+        "Xander Schauffele",
+        "Zach Johnson"
       ]
     }
   ]
