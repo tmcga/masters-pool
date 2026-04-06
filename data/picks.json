@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-06T12:33:55.429Z",
+  "updated": "2026-04-06T13:54:52.481Z",
   "participants": [
     {
       "name": "Patrick Downey",
@@ -360,6 +360,62 @@
         "Robert MacIntyre",
         "Rory McIlroy",
         "Scottie Scheffler",
+        "Tommy Fleetwood",
+        "Xander Schauffele",
+        "Gary Woodland"
+      ]
+    },
+    {
+      "name": "Carl Paulino",
+      "winner": "Justin Rose",
+      "alternate": "Tyrrell Hatton",
+      "picks": [
+        "Adam Scott",
+        "Ben Griffin",
+        "Brooks Koepka",
+        "Cameron Young",
+        "Collin Morikawa",
+        "Daniel Berger",
+        "Hideki Matsuyama",
+        "J.J. Spaun",
+        "Jason Day",
+        "Jon Rahm",
+        "Justin Rose",
+        "Justin Thomas",
+        "Ludvig Åberg",
+        "Matt Fitzpatrick",
+        "Rory McIlroy",
+        "Scottie Scheffler",
+        "Shane Lowry",
+        "Tyrrell Hatton",
+        "Viktor Hovland",
+        "Xander Schauffele",
+        "Gary Woodland"
+      ]
+    },
+    {
+      "name": "Chuck Forte",
+      "winner": "Scottie Scheffler",
+      "alternate": "Sam Burns",
+      "picks": [
+        "Ben Griffin",
+        "Cameron Smith",
+        "Cameron Young",
+        "Chris Gotterup",
+        "Collin Morikawa",
+        "Harris English",
+        "Hideki Matsuyama",
+        "Jon Rahm",
+        "Jordan Spieth",
+        "Justin Rose",
+        "Justin Thomas",
+        "Ludvig Åberg",
+        "Matt Fitzpatrick",
+        "Patrick Cantlay",
+        "Robert MacIntyre",
+        "Rory McIlroy",
+        "Scottie Scheffler",
+        "Shane Lowry",
         "Tommy Fleetwood",
         "Xander Schauffele",
         "Gary Woodland"
