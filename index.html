@@ -167,6 +167,8 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 .odds-sort option { background:#1a3a2e; }
 .odds-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); }
 .odds-item { padding:9px 14px; border-right:1px solid #eee; border-bottom:1px solid #eee; display:flex; align-items:center; gap:8px; font-family:Arial,sans-serif; font-size:0.82rem; color:#222; transition:background 0.1s; }
+.odds-headshot { width:32px; height:32px; border-radius:50%; object-fit:cover; border:1.5px solid #e0e0e0; flex-shrink:0; }
+.odds-flag { width:16px; height:12px; object-fit:cover; flex-shrink:0; border-radius:1px; }
 .odds-item:hover { background:#f5f5f5; }
 .odds-pos { color:#bbb; font-size:0.7rem; min-width:22px; }
 .odds-name { flex:1; color:#222; }
@@ -289,6 +291,8 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
   .odds-search{width:100%;}
   .odds-grid{grid-template-columns:1fr;}
   .odds-item{padding:8px 10px;font-size:0.78rem;gap:6px;}
+  .odds-headshot{width:26px;height:26px;}
+  .odds-flag{display:none;}
   .odds-val{min-width:44px;font-size:0.8rem;}
   .odds-pos{min-width:18px;font-size:0.65rem;}
   /* ── Signup ── */
@@ -759,13 +763,13 @@ function renderOdds(){
   else lbl.textContent='2026 Masters Field — Odds to Win (static fallback)';
   const q=(document.getElementById('odds-search').value||'').toLowerCase();
   const sortBy=document.getElementById('odds-sort').value;
-  let entries=Object.entries(ODDS).map(([n,o])=>({n,o,score:getScore(n)?.tp??null,thru:getScore(n)?.thru||''}));
+  let entries=Object.entries(ODDS).map(([n,o])=>{const s=getScore(n);return{n,o,score:s?.tp??null,thru:s?.thru||'',headshot:s?.headshot||'',flag:s?.flag||'',country:s?.country||''};});
   if(q)entries=entries.filter(e=>e.n.toLowerCase().includes(q));
   if(sortBy==='name')entries.sort((a,b)=>a.n.localeCompare(b.n));
   else if(sortBy==='score')entries.sort((a,b)=>(isNaN(parseInt(a.score))?999:parseInt(a.score))-(isNaN(parseInt(b.score))?999:parseInt(b.score)));
   else entries.sort((a,b)=>(isNaN(parseInt(a.o))?9999:parseInt(a.o))-(isNaN(parseInt(b.o))?9999:parseInt(b.o)));
   let h='<div class="odds-grid">';
-  entries.forEach((e,i)=>{h+=`<div class="odds-item"><span class="odds-pos">${i+1}</span><span class="odds-name">${e.n}</span><span class="odds-thru">${e.thru||''}</span><span class="odds-val ${oddsColor(e.o)}">${e.o}</span>${e.score!==null?`<span style="margin-left:8px">${fmt(e.score)}</span>`:''}</div>`;});
+  entries.forEach((e,i)=>{const img=e.headshot?`<img class="odds-headshot" src="${e.headshot}" alt="" loading="lazy">`:'';const fl=e.flag?`<img class="odds-flag" src="${e.flag}" alt="${e.country}" title="${e.country}" loading="lazy">`:'';h+=`<div class="odds-item"><span class="odds-pos">${i+1}</span>${img}<span class="odds-name">${e.n}</span>${fl}<span class="odds-thru">${e.thru||''}</span><span class="odds-val ${oddsColor(e.o)}">${e.o}</span>${e.score!==null?`<span style="margin-left:8px">${fmt(e.score)}</span>`:''}</div>`;});
   document.getElementById('odds-board').innerHTML=h+'</div>';
 }
 
