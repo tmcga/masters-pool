@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-07T18:41:10.766Z",
+  "updated": "2026-04-07T19:45:55.688Z",
   "participants": [
     {
       "name": "Patrick Downey",
@@ -587,6 +587,34 @@
         "Tommy Fleetwood",
         "Xander Schauffele",
         "Gary Woodland"
+      ]
+    },
+    {
+      "name": "Tom OKeefe",
+      "winner": "Scottie Scheffler",
+      "alternate": "Justin Thomas",
+      "picks": [
+        "Brooks Koepka",
+        "Bryson DeChambeau",
+        "Cameron Young",
+        "Chris Gotterup",
+        "Collin Morikawa",
+        "Hideki Matsuyama",
+        "Jon Rahm",
+        "Jordan Spieth",
+        "Justin Rose",
+        "Ludvig Åberg",
+        "Matt Fitzpatrick",
+        "Min Woo Lee",
+        "Patrick Reed",
+        "Robert MacIntyre",
+        "Rory McIlroy",
+        "Russell Henley",
+        "Scottie Scheffler",
+        "Si Woo Kim",
+        "Tommy Fleetwood",
+        "Viktor Hovland",
+        "Xander Schauffele"
       ]
     }
   ]
