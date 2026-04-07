@@ -327,13 +327,128 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
   /* ── Footer ── */
   .footer{font-size:0.62rem;letter-spacing:0.5px;}
 }
+
+/* ══ DARK MODE ═══════════════════════════════════════════ */
+.dark-toggle { position:absolute; top:8px; right:14px; z-index:10; background:rgba(255,255,255,0.08); border:1px solid rgba(242,197,92,0.25); color:var(--gold); font-size:0.72rem; padding:5px 10px; border-radius:6px; cursor:pointer; font-family:Arial,sans-serif; transition:all 0.2s; }
+.dark-toggle:hover { background:rgba(242,197,92,0.15); }
+body.dark-mode .card { background:var(--green-row); border-color:rgba(242,197,92,0.12); }
+body.dark-mode .t thead tr { background:var(--green-deep); }
+body.dark-mode .t tbody tr.pr:nth-child(odd) { background:var(--green-row); }
+body.dark-mode .t tbody tr.pr:nth-child(even) { background:var(--green-alt); }
+body.dark-mode .t tbody tr.pr:hover, body.dark-mode .t tbody tr.pr.expanded { background:var(--green-med) !important; }
+body.dark-mode .t td { color:#e0e0e0; }
+body.dark-mode .p-name { color:#fff; }
+body.dark-mode .tot { color:#fff; }
+body.dark-mode .tot.lead { color:var(--red); }
+body.dark-mode .rank-n { color:#aaa; }
+body.dark-mode .squad-tr td { background:var(--green-alt); }
+body.dark-mode .squad-p { color:#e0e0e0; }
+body.dark-mode .sq { background:var(--green-row); border-color:rgba(255,255,255,0.1); color:#e0e0e0; }
+body.dark-mode .sq:hover { background:var(--green-med); }
+body.dark-mode .sq.win { background:rgba(242,197,92,0.1); border-color:var(--gold-dark); }
+body.dark-mode .sq.win:hover { background:rgba(242,197,92,0.18); }
+body.dark-mode .sq.alt { background:rgba(0,107,79,0.15); border-color:rgba(0,107,79,0.3); }
+body.dark-mode .sq.wdc { background:rgba(255,68,68,0.08); border-color:rgba(255,68,68,0.2); }
+body.dark-mode .sq-detail { background:var(--green-deep); border-color:rgba(255,255,255,0.08); }
+body.dark-mode .sq-detail-name { color:#fff; }
+body.dark-mode .sq-rounds td { color:#ddd; border-bottom-color:rgba(255,255,255,0.06); }
+body.dark-mode .sq-rounds th { border-bottom-color:rgba(255,255,255,0.1); color:#aaa; }
+body.dark-mode .sq-status-line { color:#aaa; }
+body.dark-mode .squad-winner-name { color:#fff; }
+body.dark-mode .squad-winner-meta { color:#aaa; }
+body.dark-mode .odds-item { border-color:rgba(255,255,255,0.06); color:#e0e0e0; }
+body.dark-mode .odds-item:hover { background:rgba(255,255,255,0.04); }
+body.dark-mode .odds-name { color:#e0e0e0; }
+body.dark-mode .odds-grid { border-color:rgba(255,255,255,0.06); }
+body.dark-mode .pop-row { border-bottom-color:rgba(255,255,255,0.06); }
+body.dark-mode .pop-name { color:#e0e0e0; }
+body.dark-mode .pop-count { color:#e0e0e0; }
+body.dark-mode .pop-bar-wrap { background:rgba(255,255,255,0.06); }
+body.dark-mode .cont-item { background:rgba(242,197,92,0.06); border-color:rgba(242,197,92,0.15); }
+body.dark-mode .cont-golfer { color:#e0e0e0; }
+body.dark-mode .cont-owner { color:#aaa; }
+body.dark-mode .winner-card { background:var(--green-row); border-color:var(--gold-dark); }
+body.dark-mode .winner-name { color:var(--gold); }
+body.dark-mode .winner-pickers { color:#bbb; }
+body.dark-mode .coverage-body { color:#e0e0e0; }
+body.dark-mode .coverage-num { color:var(--gold); }
+body.dark-mode .coverage-sub { color:#aaa; }
+body.dark-mode .matrix td { border-color:rgba(255,255,255,0.06); }
+body.dark-mode .matrix th { color:#bbb; }
+body.dark-mode .matrix td.heat-0 { background:rgba(255,255,255,0.03); color:#666; }
+body.dark-mode .matrix td.heat-1 { background:rgba(0,87,63,0.2); color:#66bb6a; }
+body.dark-mode .matrix td.heat-2 { background:rgba(0,87,63,0.35); color:#a5d6a7; }
+body.dark-mode .matrix td.heat-3 { background:rgba(0,87,63,0.5); color:#fff; }
+body.dark-mode .matrix td.heat-4 { background:rgba(0,87,63,0.7); color:#fff; }
+body.dark-mode .matrix td.diag { background:rgba(255,255,255,0.03); color:#666; }
+body.dark-mode .live-stat-card { background:var(--green-row); border-color:rgba(255,255,255,0.08); }
+body.dark-mode .live-stat-golfer { color:#fff; }
+body.dark-mode .live-stat-detail { color:#aaa; }
+body.dark-mode .signup-notice { background:rgba(242,197,92,0.04); }
+
+/* ══ MOMENTUM CHART ═════════════════════════════════════ */
+.momentum-wrap { position:relative; width:100%; overflow-x:auto; padding:16px; }
+.momentum-canvas { width:100%; height:320px; display:block; }
+.momentum-legend { display:flex; flex-wrap:wrap; gap:8px 14px; margin-top:10px; padding:0 4px; }
+.momentum-leg-item { display:flex; align-items:center; gap:5px; font-size:0.7rem; font-family:Arial,sans-serif; color:#666; }
+body.dark-mode .momentum-leg-item { color:#bbb; }
+.momentum-leg-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.momentum-empty { text-align:center; padding:32px 16px; color:#999; font-family:Arial,sans-serif; font-size:0.85rem; }
+
+/* ══ CUT TRACKER ════════════════════════════════════════ */
+.cut-tracker-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px; padding:14px 16px; }
+.cut-card { background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:14px; font-family:Arial,sans-serif; }
+body.dark-mode .cut-card { background:var(--green-row); border-color:rgba(255,255,255,0.08); }
+.cut-card-name { font-size:0.85rem; font-weight:700; color:#222; margin-bottom:8px; }
+body.dark-mode .cut-card-name { color:#fff; }
+.cut-bar-track { height:8px; background:#f0f0f0; border-radius:4px; overflow:hidden; margin-bottom:6px; }
+body.dark-mode .cut-bar-track { background:rgba(255,255,255,0.06); }
+.cut-bar-fill { height:100%; border-radius:4px; transition:width 0.4s; }
+.cut-bar-safe { background:linear-gradient(90deg,#00573F,#00875F); }
+.cut-bar-danger { background:linear-gradient(90deg,#C9963B,#F2C55C); }
+.cut-bar-cut { background:linear-gradient(90deg,#c8102e,#ff4444); }
+.cut-stats { display:flex; gap:12px; font-size:0.72rem; color:#888; }
+.cut-stat { display:flex; align-items:center; gap:4px; }
+.cut-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.cut-dot-safe { background:#00573F; }
+.cut-dot-danger { background:#C9963B; }
+.cut-dot-cut { background:#c8102e; }
+.cut-projected { text-align:center; padding:10px 16px 6px; font-size:0.78rem; color:#888; font-family:Arial,sans-serif; }
+body.dark-mode .cut-projected { color:#aaa; }
+
+/* ══ VALUE PICKS ════════════════════════════════════════ */
+.value-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; padding:14px 16px; }
+.value-card { background:#fff; border:1px solid #e0e0e0; border-radius:8px; padding:14px; font-family:Arial,sans-serif; position:relative; overflow:hidden; }
+body.dark-mode .value-card { background:var(--green-row); border-color:rgba(255,255,255,0.08); }
+.value-card::before { content:''; position:absolute; top:0; left:0; width:4px; height:100%; background:var(--green-dark); }
+.value-golfer { font-size:0.9rem; font-weight:700; color:#222; margin-bottom:4px; }
+body.dark-mode .value-golfer { color:#fff; }
+.value-odds { font-size:0.75rem; font-weight:700; margin-bottom:4px; }
+.value-score { font-size:1.1rem; font-weight:700; margin-bottom:4px; }
+.value-detail { font-size:0.7rem; color:#888; line-height:1.5; }
+.value-badge { display:inline-block; background:rgba(0,87,63,0.1); border:1px solid rgba(0,87,63,0.25); color:var(--green-dark); font-size:0.6rem; font-weight:700; padding:2px 8px; border-radius:10px; margin-top:6px; text-transform:uppercase; letter-spacing:0.5px; }
+body.dark-mode .value-badge { background:rgba(0,107,79,0.2); color:#66bb6a; border-color:rgba(0,107,79,0.4); }
+.value-empty { text-align:center; padding:24px 16px; color:#999; font-family:Arial,sans-serif; font-size:0.85rem; }
+
+/* ══ SHARE CARD ═════════════════════════════════════════ */
+.share-btn { display:inline-flex; align-items:center; gap:5px; background:var(--green-dark); color:#fff; border:none; padding:7px 14px; border-radius:6px; font-size:0.72rem; font-family:Arial,sans-serif; cursor:pointer; margin-top:10px; transition:background 0.2s; letter-spacing:0.5px; }
+.share-btn:hover { background:var(--green-med); }
+.share-toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--green-dark); color:#fff; padding:10px 22px; border-radius:8px; font-family:Arial,sans-serif; font-size:0.82rem; z-index:9999; box-shadow:0 4px 20px rgba(0,0,0,0.3); opacity:0; transition:opacity 0.3s; pointer-events:none; }
+.share-toast.show { opacity:1; }
+
+@media(max-width:600px){
+  .dark-toggle { padding:4px 8px; font-size:0.65rem; right:8px; }
+  .momentum-canvas { height:240px; }
+  .cut-tracker-grid { grid-template-columns:1fr; }
+  .value-grid { grid-template-columns:1fr; }
+}
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
 <div class="hdr">
-  <div class="hdr-top">Augusta National Golf Club</div>
+  <div class="hdr-top">Augusta National Golf Club<button class="dark-toggle" onclick="toggleDarkMode()" id="dark-toggle">🌙 Dark</button></div>
   <div class="hdr-bg">
     <div class="hdr-inner">
       <div class="hdr-lockup">
@@ -431,6 +546,9 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
   <div id="stats-container"><div class="loading"><div class="spinner"></div>Loading statistics…</div></div>
 </div>
 </div>
+
+<!-- SHARE TOAST -->
+<div class="share-toast" id="share-toast">Image copied to clipboard!</div>
 
 <div class="footer">BRIAN SULLIVAN'S MASTERS POOL &nbsp;·&nbsp; AUGUSTA NATIONAL GOLF CLUB &nbsp;·&nbsp; APRIL 9–12, 2026</div>
 
@@ -919,6 +1037,347 @@ async function init(){
     const cdInterval=setInterval(()=>{updateCD();if(isRevealed()){clearInterval(cdInterval);document.getElementById('lock-screen').style.display='none';document.getElementById('live-board').style.display='block';document.getElementById('tbtn-signup').style.display='none';doRefresh();setInterval(doRefresh,5*60*1000);}},1000);
   }
 }
+
+// ════════════════════════════════════════════════════════
+// ██  DARK MODE  ██
+// ════════════════════════════════════════════════════════
+function toggleDarkMode(){
+  const on=document.body.classList.toggle('dark-mode');
+  document.getElementById('dark-toggle').textContent=on?'☀️ Light':'🌙 Dark';
+  try{localStorage.setItem('masters-dark',on?'1':'0');}catch(e){}
+}
+(function(){try{if(localStorage.getItem('masters-dark')==='1'){document.body.classList.add('dark-mode');document.getElementById('dark-toggle').textContent='☀️ Light';}}catch(e){}})();
+
+// ════════════════════════════════════════════════════════
+// ██  MOMENTUM CHART  ██
+// ════════════════════════════════════════════════════════
+const CHART_COLORS=['#F2C55C','#00875F','#c8102e','#90CAF9','#FF9800','#AB47BC','#26A69A','#EF5350','#42A5F5','#66BB6A','#FFA726','#EC407A','#8D6E63','#78909C','#FFEE58','#7E57C2','#29B6F6','#D4E157','#FF7043','#5C6BC0'];
+
+function renderMomentumChart(){
+  if(!hasScores()||liveParts.length===0||currentRound<1) return'<div class="momentum-empty">Momentum chart will appear once Round 1 scoring begins.</div>';
+  // Calculate per-round cumulative standings
+  const rounds=[];
+  for(let r=1;r<=currentRound;r++){
+    const standings=liveParts.map(p=>{
+      let total=0;
+      for(const g of p.picks){
+        const s=getScore(g);
+        if(!s||isWD(g))continue;
+        let cumScore=0;
+        for(const rd of(s.rounds||[])){if(rd.rd<=r){const tp=parseInt(rd.toPar);if(!isNaN(tp))cumScore+=tp;}}
+        total+=cumScore;
+      }
+      return{name:p.name,total};
+    }).sort((a,b)=>a.total-b.total);
+    const ranked={};
+    standings.forEach((s,i)=>ranked[s.name]=i+1);
+    rounds.push(ranked);
+  }
+  if(rounds.length===0) return'<div class="momentum-empty">No round data available yet.</div>';
+
+  const dark=document.body.classList.contains('dark-mode');
+  const W=Math.max(600,liveParts.length*40);
+  const H=320;
+  const pad={t:30,r:20,b:40,l:44};
+  const cw=W-pad.l-pad.r;
+  const ch=H-pad.t-pad.b;
+  const n=liveParts.length;
+  const numRounds=rounds.length;
+
+  let svg=`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;display:block" xmlns="http://www.w3.org/2000/svg">`;
+  // Grid
+  const gridColor=dark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.06)';
+  const textColor=dark?'#aaa':'#888';
+  for(let i=1;i<=n;i++){
+    const y=pad.t+(i-1)/(n-1||1)*ch;
+    svg+=`<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="${gridColor}" stroke-width="1"/>`;
+    if(i<=10||i===n||i%5===0) svg+=`<text x="${pad.l-8}" y="${y+4}" text-anchor="end" fill="${textColor}" font-size="11" font-family="Arial">${i}</text>`;
+  }
+  // Round labels
+  const xPoints=[];
+  // Add "Start" column
+  for(let r=0;r<=numRounds;r++){
+    const x=pad.l+r/(numRounds||1)*cw;
+    xPoints.push(x);
+    const label=r===0?'Start':`R${r}`;
+    svg+=`<text x="${x}" y="${H-pad.b+20}" text-anchor="middle" fill="${textColor}" font-size="11" font-family="Arial">${label}</text>`;
+  }
+  // Lines
+  liveParts.forEach((p,pi)=>{
+    const color=CHART_COLORS[pi%CHART_COLORS.length];
+    const points=[];
+    // Start: everyone at tied (middle position)
+    const startY=pad.t+((n+1)/2-1)/(n-1||1)*ch;
+    points.push(`${xPoints[0]},${startY}`);
+    for(let r=0;r<numRounds;r++){
+      const pos=rounds[r][p.name]||n;
+      const y=pad.t+(pos-1)/(n-1||1)*ch;
+      points.push(`${xPoints[r+1]},${y}`);
+    }
+    svg+=`<polyline points="${points.join(' ')}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>`;
+    // End dot + label
+    const lastPt=points[points.length-1].split(',');
+    svg+=`<circle cx="${lastPt[0]}" cy="${lastPt[1]}" r="4" fill="${color}"/>`;
+    const lastPos=rounds[numRounds-1][p.name]||n;
+    svg+=`<text x="${parseFloat(lastPt[0])+8}" y="${parseFloat(lastPt[1])+4}" fill="${color}" font-size="10" font-family="Arial" font-weight="700">${p.name.split(' ')[0]}</text>`;
+  });
+  // Y-axis label
+  svg+=`<text x="12" y="${pad.t+ch/2}" text-anchor="middle" fill="${textColor}" font-size="10" font-family="Arial" transform="rotate(-90,12,${pad.t+ch/2})">Position</text>`;
+  svg+='</svg>';
+  // Legend
+  let legend='<div class="momentum-legend">';
+  liveParts.forEach((p,i)=>{
+    const color=CHART_COLORS[i%CHART_COLORS.length];
+    legend+=`<div class="momentum-leg-item"><span class="momentum-leg-dot" style="background:${color}"></span>${esc(p.name)}</div>`;
+  });
+  legend+='</div>';
+  return`<div class="momentum-wrap">${svg}${legend}</div>`;
+}
+
+// ════════════════════════════════════════════════════════
+// ██  CUT TRACKER  ██
+// ════════════════════════════════════════════════════════
+function renderCutTracker(){
+  if(!hasScores()||liveParts.length===0) return'';
+  // Estimate projected cut line (top 50 + ties after R2)
+  const allScores=Object.entries(scores).filter(([,s])=>s.st!=='WD'&&s.st!=='CUT').map(([,s])=>parseInt(s.tp)).filter(n=>!isNaN(n)).sort((a,b)=>a-b);
+  const cutLine=allScores.length>=50?allScores[49]:allScores[allScores.length-1]||0;
+  const hasCuts=Object.values(scores).some(s=>s.st==='CUT');
+  let html=`<div class="cut-projected">Projected cut line: <strong>${cutLine>=0?(cutLine===0?'E':'+'+cutLine):cutLine}</strong>${hasCuts?' (official)':' (estimated at T50)'}</div>`;
+  html+='<div class="cut-tracker-grid">';
+  const ranked=liveParts.map(p=>{
+    let safe=0,danger=0,cut=0,wd=0;
+    for(const g of p.picks){
+      if(isWD(g)){wd++;continue;}
+      if(isCut(g)){cut++;continue;}
+      const s=getScore(g);if(!s)continue;
+      const v=parseInt(s.tp);
+      if(isNaN(v))continue;
+      if(v>cutLine)danger++;
+      else safe++;
+    }
+    return{name:p.name,safe,danger,cut,wd,total:p.picks.length};
+  }).sort((a,b)=>b.safe-a.safe);
+  for(const p of ranked){
+    const safePct=(p.safe/p.total*100).toFixed(0);
+    const dangerPct=(p.danger/p.total*100).toFixed(0);
+    const cutPct=((p.cut+p.wd)/p.total*100).toFixed(0);
+    html+=`<div class="cut-card"><div class="cut-card-name">${esc(p.name)}</div>`;
+    html+=`<div class="cut-bar-track"><div style="display:flex;height:100%"><div class="cut-bar-fill cut-bar-safe" style="width:${safePct}%"></div><div class="cut-bar-fill cut-bar-danger" style="width:${dangerPct}%"></div><div class="cut-bar-fill cut-bar-cut" style="width:${cutPct}%"></div></div></div>`;
+    html+=`<div class="cut-stats"><span class="cut-stat"><span class="cut-dot cut-dot-safe"></span>${p.safe} safe</span><span class="cut-stat"><span class="cut-dot cut-dot-danger"></span>${p.danger} bubble</span><span class="cut-stat"><span class="cut-dot cut-dot-cut"></span>${p.cut+p.wd} out</span></div>`;
+    html+='</div>';
+  }
+  return html+'</div>';
+}
+
+// ════════════════════════════════════════════════════════
+// ██  VALUE PICKS  ██
+// ════════════════════════════════════════════════════════
+function renderValuePicks(){
+  if(!hasScores()) return'';
+  // Find golfers whose score position is much better than their odds position
+  const oddsEntries=Object.entries(ODDS).map(([n,o])=>({name:n,odds:parseInt(o)||99999})).sort((a,b)=>a.odds-b.odds);
+  const oddsRank={};oddsEntries.forEach((e,i)=>oddsRank[e.name]=i+1);
+  const scored=Object.entries(scores).filter(([,s])=>s.st!=='WD'&&s.st!=='CUT'&&!isNaN(parseInt(s.tp))).map(([n,s])=>({name:n,score:parseInt(s.tp)})).sort((a,b)=>a.score-b.score);
+  const scoreRank={};scored.forEach((e,i)=>scoreRank[e.name]=i+1);
+
+  const values=scored.filter(g=>oddsRank[g.name]&&oddsRank[g.name]>15).map(g=>{
+    const oRank=oddsRank[g.name]||scored.length;
+    const sRank=scoreRank[g.name]||scored.length;
+    const delta=oRank-sRank;
+    return{...g,oddsRank:oRank,scoreRank:sRank,delta,odds:ODDS[g.name]||''};
+  }).filter(g=>g.delta>10).sort((a,b)=>b.delta-a.delta).slice(0,8);
+
+  if(values.length===0) return'<div class="value-empty">No standout value picks yet — check back as the tournament progresses.</div>';
+  let html='<div class="value-grid">';
+  for(const v of values){
+    const owners=liveParts.filter(p=>p.picks.includes(v.name)).map(p=>p.name);
+    html+=`<div class="value-card"><div class="value-golfer">${esc(v.name)}</div>`;
+    html+=`<div class="value-odds ${oddsColor(v.odds)}">${esc(v.odds)} (ranked #${v.oddsRank} in odds)</div>`;
+    html+=`<div class="value-score">${fmt(v.score)}</div>`;
+    html+=`<div class="value-detail">Scoring rank: #${v.scoreRank} · Outperforming by ${v.delta} spots</div>`;
+    if(owners.length>0) html+=`<div class="value-detail">Picked by: ${owners.map(n=>esc(n)).join(', ')}</div>`;
+    else html+=`<div class="value-detail" style="color:var(--red)">Not picked by anyone!</div>`;
+    html+=`<div class="value-badge">🔥 Value Pick</div></div>`;
+  }
+  return html+'</div>';
+}
+
+// ════════════════════════════════════════════════════════
+// ██  SHARE CARD  ██
+// ════════════════════════════════════════════════════════
+function generateShareCard(pIndex){
+  const ranked=liveParts.map(p=>{const{t,ua}=calcTeam(p);return{...p,total:t,ua};}).sort((a,b)=>a.total-b.total);
+  const p=ranked[pIndex];if(!p)return;
+  const pos=pIndex+1;
+  const W=600;
+  const rowH=20; // height per golfer row
+  const cols=3; // 3-column layout for picks
+  const rows=Math.ceil(p.picks.length/cols);
+  const squadH=rows*rowH+40; // picks section height
+  const H=230+squadH+70; // header(190)+divider+squad+winner+alt+footer
+  const canvas=document.createElement('canvas');canvas.width=W*2;canvas.height=H*2;
+  const ctx=canvas.getContext('2d');ctx.scale(2,2);
+  // Background
+  const grad=ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,'#003829');grad.addColorStop(1,'#001a12');
+  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+  // Gold border
+  ctx.strokeStyle='#F2C55C';ctx.lineWidth=3;ctx.strokeRect(8,8,W-16,H-16);
+  // Header
+  ctx.fillStyle='#F2C55C';ctx.font='bold 11px Arial';ctx.textAlign='center';
+  ctx.fillText("BRIAN SULLIVAN'S MASTERS POOL 2026",W/2,36);
+  // Position + Name
+  const ordinal=pos===1?'st':pos===2?'nd':pos===3?'rd':'th';
+  ctx.fillStyle='#fff';ctx.font='bold 26px Georgia';
+  ctx.fillText(`${pos}${ordinal} Place`,W/2,72);
+  ctx.font='bold 20px Arial';ctx.fillStyle='#F2C55C';
+  ctx.fillText(p.name,W/2,100);
+  // Score
+  ctx.font='bold 40px Georgia';
+  const scoreStr=hasScores()?(p.total<0?''+p.total:p.total===0?'E':'+'+p.total):'—';
+  ctx.fillStyle=p.total<0?'#FF4444':p.total===0?'#fff':'#00875F';
+  ctx.fillText(scoreStr,W/2,152);
+  ctx.fillStyle='rgba(255,255,255,0.4)';ctx.font='10px Arial';
+  ctx.fillText('TOTAL SCORE TO PAR',W/2,168);
+  // Divider
+  ctx.strokeStyle='rgba(242,197,92,0.3)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(30,182);ctx.lineTo(W-30,182);ctx.stroke();
+
+  // Winner pick (prominent)
+  let y=200;
+  ctx.textAlign='left';
+  ctx.fillStyle='#F2C55C';ctx.font='bold 10px Arial';
+  ctx.fillText('WINNER PICK',30,y);
+  y+=16;
+  const ws=getScore(p.winner);const wo=ODDS[p.winner]||'';
+  const wScore=hasScores()&&ws?parseInt(ws.tp):null;
+  ctx.fillStyle='#F2C55C';ctx.font='bold 14px Arial';
+  ctx.fillText(`🏆  ${p.winner}`,30,y);
+  if(wo){ctx.fillStyle='rgba(255,255,255,0.35)';ctx.font='11px Arial';ctx.fillText(wo,ctx.measureText(`🏆  ${p.winner}`).width+40,y);}
+  if(wScore!==null){ctx.textAlign='right';ctx.fillStyle=wScore<0?'#FF4444':wScore===0?'#ccc':'#00875F';ctx.font='bold 13px Arial';ctx.fillText(wScore<0?''+wScore:wScore===0?'E':'+'+wScore,W-30,y);ctx.textAlign='left';}
+  y+=20;
+
+  // Divider
+  ctx.strokeStyle='rgba(242,197,92,0.15)';ctx.beginPath();ctx.moveTo(30,y);ctx.lineTo(W-30,y);ctx.stroke();
+  y+=16;
+
+  // Full squad - 3 columns
+  ctx.fillStyle='rgba(242,197,92,0.6)';ctx.font='bold 10px Arial';
+  ctx.fillText('FULL SQUAD (21 PICKS)',30,y);
+  y+=14;
+  const colW=(W-60)/cols;
+  const allPicks=[...p.picks].map(g=>{const isW=normName(g)===normName(p.winner);return{name:g,score:num(g),isWinner:isW,wd:isWD(g),cut:isCut(g)};});
+  allPicks.forEach((g,i)=>{
+    const col=i%cols;
+    const row=Math.floor(i/cols);
+    const x=30+col*colW;
+    const py=y+row*rowH;
+    // Name (truncate if needed)
+    let displayName=g.name;
+    ctx.font='12px Arial';
+    if(ctx.measureText(displayName).width>colW-50){
+      const parts=displayName.split(' ');
+      displayName=parts[0][0]+'. '+parts.slice(1).join(' ');
+    }
+    ctx.fillStyle=g.wd?'#FF4444':g.cut?'#999':g.isWinner?'#F2C55C':'#d0d0d0';
+    ctx.textAlign='left';
+    ctx.fillText(displayName,x,py);
+    // Score
+    const sc=hasScores()?g.score:null;
+    if(sc!==null&&!g.wd){
+      ctx.textAlign='right';
+      ctx.fillStyle=sc<0?'#FF4444':sc===0?'#888':'#00875F';
+      ctx.font='bold 11px Arial';
+      ctx.fillText(sc<0?''+sc:sc===0?'E':'+'+sc,x+colW-8,py);
+      ctx.textAlign='left';
+    }else if(g.wd){
+      ctx.textAlign='right';ctx.fillStyle='#FF4444';ctx.font='bold 10px Arial';
+      ctx.fillText('WD',x+colW-8,py);ctx.textAlign='left';
+    }else if(g.cut){
+      ctx.textAlign='right';ctx.fillStyle='#999';ctx.font='bold 10px Arial';
+      ctx.fillText('CUT',x+colW-8,py);ctx.textAlign='left';
+    }
+  });
+  y+=rows*rowH+10;
+
+  // Alternate
+  ctx.strokeStyle='rgba(242,197,92,0.15)';ctx.beginPath();ctx.moveTo(30,y);ctx.lineTo(W-30,y);ctx.stroke();
+  y+=16;
+  ctx.fillStyle='rgba(255,255,255,0.35)';ctx.font='bold 10px Arial';ctx.textAlign='left';
+  ctx.fillText('ALTERNATE',30,y);
+  y+=16;
+  const altScore=hasScores()?num(p.alternate):null;
+  ctx.fillStyle='#aaa';ctx.font='12px Arial';
+  ctx.fillText(p.alternate,30,y);
+  const ao=ODDS[p.alternate]||'';
+  if(ao){ctx.fillStyle='rgba(255,255,255,0.25)';ctx.font='11px Arial';ctx.fillText(ao,ctx.measureText(p.alternate).width+40,y);}
+  if(altScore!==null){ctx.textAlign='right';ctx.fillStyle=altScore<0?'#FF4444':altScore===0?'#888':'#00875F';ctx.font='bold 11px Arial';ctx.fillText(altScore<0?''+altScore:altScore===0?'E':'+'+altScore,W-30,y);ctx.textAlign='left';}
+
+  // Footer
+  ctx.textAlign='center';ctx.fillStyle='rgba(255,255,255,0.15)';ctx.font='9px Arial';
+  ctx.fillText('AUGUSTA NATIONAL · APRIL 9-12, 2026',W/2,H-14);
+
+  canvas.toBlob(blob=>{
+    if(!blob)return;
+    if(navigator.clipboard&&window.ClipboardItem){
+      navigator.clipboard.write([new ClipboardItem({'image/png':blob})]).then(()=>{showToast('Image copied to clipboard!');}).catch(()=>{downloadBlob(blob,p.name);});
+    }else{downloadBlob(blob,p.name);}
+  },'image/png');
+}
+function downloadBlob(blob,name){
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`masters-pool-${name.replace(/\s+/g,'-').toLowerCase()}.png`;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+  showToast('Share card downloaded!');
+}
+function showToast(msg){
+  const t=document.getElementById('share-toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ════════════════════════════════════════════════════════
+// ██  PATCH: Wire new features into existing renders  ██
+// ════════════════════════════════════════════════════════
+
+// Patch buildSquad to add share button
+const _origBuildSquad=buildSquad;
+buildSquad=function(p){
+  let html=_origBuildSquad(p);
+  const ranked=liveParts.map(pp=>{const{t,ua}=calcTeam(pp);return{...pp,total:t,ua};}).sort((a,b)=>a.total-b.total);
+  const idx=ranked.findIndex(r=>r.name===p.name);
+  if(idx>=0) html+=`<div style="padding:0 18px 14px"><button class="share-btn" onclick="event.stopPropagation();generateShareCard(${idx})">📤 Share Card</button></div>`;
+  return html;
+};
+
+// Patch renderStats to add new sections
+const _origRenderStats=renderStats;
+renderStats=function(){
+  _origRenderStats();
+  const el=document.getElementById('stats-container');
+  if(!el||liveParts.length===0||!isRevealed())return;
+  const grid=el.querySelector('.stats-grid');
+  if(!grid)return;
+  // Add Momentum Chart
+  const momentumSection=document.createElement('div');
+  momentumSection.className='stats-full';
+  momentumSection.innerHTML=`<div class="sec-lbl">Momentum Chart</div><div class="card">${renderMomentumChart()}</div>`;
+  grid.appendChild(momentumSection);
+  // Add Value Picks
+  const valueHtml=renderValuePicks();
+  if(valueHtml){
+    const valueSection=document.createElement('div');
+    valueSection.className='stats-full';
+    valueSection.innerHTML=`<div class="sec-lbl">🔥 Value Picks — Outperforming Their Odds</div><div class="card">${valueHtml}</div>`;
+    grid.appendChild(valueSection);
+  }
+  // Add Cut Tracker
+  const cutHtml=renderCutTracker();
+  if(cutHtml){
+    const cutSection=document.createElement('div');
+    cutSection.className='stats-full';
+    cutSection.innerHTML=`<div class="sec-lbl">Cut Tracker</div><div class="card">${cutHtml}</div>`;
+    grid.appendChild(cutSection);
+  }
+};
 
 init();
 </script>
