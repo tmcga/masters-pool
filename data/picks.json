@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-07T12:41:52.302Z",
+  "updated": "2026-04-07T14:18:59.496Z",
   "participants": [
     {
       "name": "Patrick Downey",
@@ -503,6 +503,62 @@
         "Tyrrell Hatton",
         "Xander Schauffele",
         "Zach Johnson"
+      ]
+    },
+    {
+      "name": "Jim McManus",
+      "winner": "Scottie Scheffler",
+      "alternate": "Jake Knapp",
+      "picks": [
+        "Brooks Koepka",
+        "Bryson DeChambeau",
+        "Cameron Young",
+        "Chris Gotterup",
+        "Collin Morikawa",
+        "Hideki Matsuyama",
+        "J.J. Spaun",
+        "Jacob Bridgeman",
+        "Jon Rahm",
+        "Justin Rose",
+        "Ludvig Åberg",
+        "Matt Fitzpatrick",
+        "Min Woo Lee",
+        "Patrick Reed",
+        "Robert MacIntyre",
+        "Rory McIlroy",
+        "Scottie Scheffler",
+        "Sepp Straka",
+        "Tommy Fleetwood",
+        "Tyrrell Hatton",
+        "Xander Schauffele"
+      ]
+    },
+    {
+      "name": "Dennis Meyer",
+      "winner": "Bryson DeChambeau",
+      "alternate": "J.J. Spaun",
+      "picks": [
+        "Akshay Bhatia",
+        "Brooks Koepka",
+        "Bryson DeChambeau",
+        "Cameron Young",
+        "Chris Gotterup",
+        "Corey Conners",
+        "Hideki Matsuyama",
+        "J.J. Spaun",
+        "Jon Rahm",
+        "Justin Rose",
+        "Ludvig Åberg",
+        "Matt Fitzpatrick",
+        "Patrick Reed",
+        "Robert MacIntyre",
+        "Rory McIlroy",
+        "Scottie Scheffler",
+        "Sepp Straka",
+        "Si Woo Kim",
+        "Tommy Fleetwood",
+        "Tyrrell Hatton",
+        "Xander Schauffele"
       ]
     }
   ]
