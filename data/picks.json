@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-07T11:37:38.275Z",
+  "updated": "2026-04-07T12:41:52.302Z",
   "participants": [
     {
       "name": "Patrick Downey",
@@ -447,6 +447,62 @@
         "Si Woo Kim",
         "Tommy Fleetwood",
         "Xander Schauffele"
+      ]
+    },
+    {
+      "name": "Robert Pelkowski",
+      "winner": "Bryson DeChambeau",
+      "alternate": "Chris Gotterup",
+      "picks": [
+        "Brooks Koepka",
+        "Bryson DeChambeau",
+        "Cameron Young",
+        "Collin Morikawa",
+        "Daniel Berger",
+        "Hideki Matsuyama",
+        "Jon Rahm",
+        "Jordan Spieth",
+        "Justin Rose",
+        "Justin Thomas",
+        "Ludvig Åberg",
+        "Matt Fitzpatrick",
+        "Patrick Reed",
+        "Robert MacIntyre",
+        "Rory McIlroy",
+        "Scottie Scheffler",
+        "Sepp Straka",
+        "Shane Lowry",
+        "Tommy Fleetwood",
+        "Xander Schauffele",
+        "Gary Woodland"
+      ]
+    },
+    {
+      "name": "Brett Morrow",
+      "winner": "Brooks Koepka",
+      "alternate": "Sepp Straka",
+      "picks": [
+        "Adam Scott",
+        "Akshay Bhatia",
+        "Brooks Koepka",
+        "Bryson DeChambeau",
+        "Cameron Young",
+        "Chris Gotterup",
+        "Collin Morikawa",
+        "J.J. Spaun",
+        "Jason Day",
+        "Jon Rahm",
+        "Jordan Spieth",
+        "Justin Rose",
+        "Ludvig Åberg",
+        "Max Homa",
+        "Patrick Cantlay",
+        "Rasmus Neergaard-Petersen",
+        "Shane Lowry",
+        "Tommy Fleetwood",
+        "Tyrrell Hatton",
+        "Xander Schauffele",
+        "Zach Johnson"
       ]
     }
   ]
