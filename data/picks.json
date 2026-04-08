@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-08T11:41:42.913Z",
+  "updated": "2026-04-08T12:45:44.850Z",
   "participants": [
     {
       "name": "Patrick Downey",
@@ -671,6 +671,34 @@
         "Tommy Fleetwood",
         "Viktor Hovland",
         "Xander Schauffele"
+      ]
+    },
+    {
+      "name": "Kieran Cassidy",
+      "winner": "Matt Fitzpatrick",
+      "alternate": "Si Woo Kim",
+      "picks": [
+        "Akshay Bhatia",
+        "Brooks Koepka",
+        "Bryson DeChambeau",
+        "Cameron Smith",
+        "Cameron Young",
+        "Charl Schwartzel",
+        "Chris Gotterup",
+        "Collin Morikawa",
+        "Hideki Matsuyama",
+        "Jon Rahm",
+        "Jordan Spieth",
+        "Justin Thomas",
+        "Ludvig Åberg",
+        "Matt Fitzpatrick",
+        "Min Woo Lee",
+        "Patrick Cantlay",
+        "Patrick Reed",
+        "Rory McIlroy",
+        "Scottie Scheffler",
+        "Shane Lowry",
+        "Tommy Fleetwood"
       ]
     }
   ]
