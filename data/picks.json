@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-08T23:46:47.920Z",
+  "updated": "2026-04-09T00:55:23.146Z",
   "participants": [
     {
       "name": "Patrick Downey",
@@ -699,6 +699,34 @@
         "Scottie Scheffler",
         "Shane Lowry",
         "Tommy Fleetwood"
+      ]
+    },
+    {
+      "name": "Nick McGahan",
+      "winner": "Bryson DeChambeau",
+      "alternate": "Corey Conners",
+      "picks": [
+        "Aaron Rai",
+        "Ben Griffin",
+        "Bryson DeChambeau",
+        "Cameron Smith",
+        "Cameron Young",
+        "Chris Gotterup",
+        "Dustin Johnson",
+        "Hideki Matsuyama",
+        "Im Sung-jae",
+        "J.J. Spaun",
+        "Jason Day",
+        "Justin Rose",
+        "Ludvig Åberg",
+        "Maverick McNealy",
+        "Robert MacIntyre",
+        "Rory McIlroy",
+        "Russell Henley",
+        "Scottie Scheffler",
+        "Tommy Fleetwood",
+        "Vijay Singh",
+        "Wyndham Clark"
       ]
     }
   ]
