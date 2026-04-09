@@ -104,7 +104,7 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 .scut { color:#999; font-style:italic; font-size:0.78rem; }
 
 .tot { font-size:1.1rem; font-weight:700; color:#222; }
-.tot.lead { color:#c8102e; font-size:1.28rem; }
+.tot.lead { color:var(--green-dark); font-size:1.15rem; }
 .wd-tag { display:inline-block; background:rgba(200,16,46,0.1); border:1px solid rgba(200,16,46,0.3); color:#c8102e; font-size:0.62rem; font-weight:700; padding:1px 5px; border-radius:4px; margin-right:3px; vertical-align:middle; }
 .alt-in { display:inline-block; background:rgba(0,87,63,0.1); border:1px solid rgba(0,87,63,0.3); color:var(--green-dark); font-size:0.62rem; font-weight:700; padding:1px 6px; border-radius:4px; margin-left:4px; vertical-align:middle; }
 .wp { font-size:0.82rem; color:#999; font-weight:600; }
@@ -123,7 +123,7 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 .squad-winner-name { font-size:1.05rem; font-weight:700; color:#222; font-family:Arial,sans-serif; }
 .squad-winner-meta { font-size:0.72rem; color:#888; font-family:Arial,sans-serif; margin-top:2px; }
 .squad-winner-score { text-align:right; }
-.squad-winner-tp { font-size:1.3rem; font-weight:700; }
+.squad-winner-tp { font-size:1rem; font-weight:700; }
 .squad-winner-pos { font-size:0.68rem; color:#888; font-family:Arial,sans-serif; }
 .squad-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:6px; }
 .sq { background:#fff; border:1px solid #e0e0e0; border-radius:7px; padding:7px 10px; display:flex; align-items:center; justify-content:space-between; font-size:0.8rem; font-family:Arial,sans-serif; color:#222; }
@@ -135,7 +135,7 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 .sq-badge.a { background:rgba(0,87,63,0.15); color:var(--green-dark); }
 .sq-badge.s { background:rgba(200,16,46,0.15); color:#c8102e; font-style:italic; }
 .sq-right { display:flex; flex-direction:column; align-items:flex-end; gap:2px; }
-.sq-score { font-weight:700; font-size:0.86rem; min-width:32px; text-align:right; }
+.sq-score { font-weight:700; font-size:0.78rem; min-width:80px; text-align:right; }
 .sq-odds { font-size:0.62rem; color:#999; text-align:right; }
 .sq { cursor:pointer; transition:background 0.15s; }
 .sq:hover { background:#f5f5f5; }
@@ -204,14 +204,14 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
 .pop-row:last-child { border-bottom:none; }
 .pop-name { min-width:140px; font-size:0.82rem; font-family:Arial,sans-serif; color:#222; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .pop-odds { min-width:52px; font-size:0.72rem; font-weight:700; text-align:right; }
-.pop-score-wrap { min-width:36px; text-align:right; }
+.pop-score-wrap { min-width:90px; text-align:right; font-size:0.74rem; }
 .pop-bar-wrap { flex:1; height:22px; background:#f0f0f0; border-radius:4px; overflow:hidden; }
 .pop-bar { height:100%; border-radius:4px; transition:width 0.4s ease; min-width:2px; }
 .pop-bar.tier-high { background:linear-gradient(90deg,#00573F,#00875F); }
 .pop-bar.tier-mid  { background:linear-gradient(90deg,#C9963B,#F2C55C); }
 .pop-bar.tier-low  { background:#d0d0d0; }
 .pop-count { min-width:36px; font-size:0.82rem; font-weight:700; color:#222; text-align:center; font-family:Arial,sans-serif; }
-.pop-score-wrap { min-width:36px; text-align:right; }
+.pop-score-wrap { min-width:90px; text-align:right; font-size:0.74rem; }
 
 .cont-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:8px; padding:12px 16px; }
 .cont-item { background:#fdf6e3; border:1px solid rgba(242,197,92,0.3); border-radius:8px; padding:12px 14px; }
@@ -280,7 +280,7 @@ body { font-family:'Georgia',serif; background:#0a1f17; color:#fff; }
   .sq-odds{display:none;}
   .squad-winner-img{width:42px;height:42px;}
   .squad-winner-name{font-size:0.92rem;}
-  .squad-winner-tp{font-size:1.1rem;}
+  .squad-winner-tp{font-size:0.88rem;}
   .sq-detail{padding:10px 12px;}
   .sq-headshot{width:36px;height:36px;}
   .sq-detail-name{font-size:0.8rem;}
@@ -339,7 +339,7 @@ body.dark-mode .t tbody tr.pr:hover, body.dark-mode .t tbody tr.pr.expanded { ba
 body.dark-mode .t td { color:#e0e0e0; }
 body.dark-mode .p-name { color:#fff; }
 body.dark-mode .tot { color:#fff; }
-body.dark-mode .tot.lead { color:var(--red); }
+body.dark-mode .tot.lead { color:#66BB6A; }
 body.dark-mode .rank-n { color:#aaa; }
 body.dark-mode .squad-tr td { background:var(--green-alt); }
 body.dark-mode .squad-p { color:#e0e0e0; }
@@ -385,6 +385,11 @@ body.dark-mode .live-stat-card { background:var(--green-row); border-color:rgba(
 body.dark-mode .live-stat-golfer { color:#fff; }
 body.dark-mode .live-stat-detail { color:#aaa; }
 body.dark-mode .signup-notice { background:rgba(242,197,92,0.04); }
+.smoney { color:var(--green-dark); font-weight:700; }
+body.dark-mode .smoney { color:#66BB6A; }
+.sq-score-par { font-size:0.7rem; color:#999; font-weight:400; }
+.payout-tag { font-size:0.62rem; color:var(--gold-dark); background:rgba(242,197,92,0.1); border:1px solid rgba(242,197,92,0.2); padding:1px 6px; border-radius:4px; margin-left:4px; font-family:Arial,sans-serif; }
+body.dark-mode .payout-tag { background:rgba(242,197,92,0.08); border-color:rgba(242,197,92,0.15); color:var(--gold); }
 
 /* ══ MOMENTUM CHART ═════════════════════════════════════ */
 .momentum-wrap { position:relative; width:100%; overflow-x:auto; padding:16px; }
@@ -465,7 +470,7 @@ body.dark-mode .value-badge { background:rgba(0,107,79,0.2); color:#66bb6a; bord
       <div class="pill">Buy-In <strong>$120</strong></div>
       <div class="pill">Entries <strong id="entry-count">—</strong></div>
       <div class="pill">Pot <strong id="pot-total">—</strong></div>
-      <div class="pill">Scoring <strong>Lowest Wins</strong></div>
+      <div class="pill">Scoring <strong>Most Prize $ Wins</strong></div>
     </div>
     <div class="tab-nav">
       <button class="tab-btn active" id="tbtn-standings" onclick="showTab('standings',this)"><span class="tab-full">🏆 Leaderboard</span><span class="tab-short">🏆 Leaderboard</span></button>
@@ -515,7 +520,7 @@ body.dark-mode .value-badge { background:rgba(0,107,79,0.2); color:#66bb6a; bord
 <div class="signup-wrap">
   <div class="signup-notice">
     <h3>📋 How to Enter Your Picks</h3>
-    <p>Make <strong>23 Selections</strong>: <strong>21 Golfers</strong>, <strong>1 Winner</strong> &amp; <strong>1 Alternate</strong>. Winner MUST be one of your 21 golfers selected. Alternate will serve as a substitute in case of a W/D. Buy-in is <strong>$120</strong> — please pay <strong>Brian or Charlie</strong> before the event starts. Check the <strong>🎯 Field &amp; Odds</strong> tab for current lines. <strong>Picks lock before first tee — Thursday April 9, 2026.</strong> Good Luck!</p>
+    <p>Make <strong>23 Selections</strong>: <strong>21 Golfers</strong>, <strong>1 Winner</strong> &amp; <strong>1 Alternate</strong>. Winner MUST be one of your 21 golfers selected. Alternate will serve as a substitute in case of a W/D. Buy-in is <strong>$120</strong> — please pay <strong>Brian or Charlie</strong> before the event starts. <strong>Scoring:</strong> Your team's total is the combined Masters prize money earned by your 21 golfers. <strong>1st place</strong> wins the pot minus $500, <strong>2nd place</strong> wins $500. Check the <strong>🎯 Field &amp; Odds</strong> tab for current lines. <strong>Picks lock before first tee — Thursday April 9, 2026.</strong> Good Luck!</p>
   </div>
   <div class="form-frame-wrap">
     <iframe id="form-iframe" src="" title="Masters Pool Entry Form" allowfullscreen></iframe>
@@ -693,10 +698,60 @@ function fmt(v){
 function getScore(n){return scores[n]||scores[resolveName(n)]||null;}
 const isWD=n=>{const s=getScore(n);return s&&(s.st==='WD'||String(s.tp).toUpperCase()==='WD');};
 const isCut=n=>{const s=getScore(n);return s&&s.st==='CUT';};
-function fmtGolfer(n){if(!hasScores())return'—';const s=getScore(n);if(!s)return'<span class="sna">—</span>';let out=fmt(s.tp);if(isCut(n))out+=' <span class="scut">CUT</span>';return out;}
-function num(n){const s=getScore(n);if(!s||isWD(n))return 0;const v=parseInt(s.tp);return isNaN(v)?0:v;}
+function fmtGolfer(n){
+  if(!hasScores())return'—';const s=getScore(n);if(!s)return'<span class="sna">—</span>';
+  const money=calcPrizeMoney(n);
+  const parVal=parseInt(s.tp);const parStr=isWD(n)?'WD':isCut(n)?'CUT':isNaN(parVal)?'—':parVal<0?''+parVal:parVal===0?'E':'+'+parVal;
+  if(money>0)return`<span class="smoney">$${money.toLocaleString()}</span> <span class="sq-score-par">(${parStr})</span>`;
+  if(isWD(n))return'<span class="swd">WD</span>';
+  if(isCut(n))return'<span class="scut">CUT · $0</span>';
+  return`${fmt(s.tp)} <span class="sq-score-par">$0</span>`;
+}
+function fmtMoney(v){if(v===null||v===undefined)return'<span class="sna">—</span>';if(typeof v==='number'){if(v===0)return'<span class="scut">$0</span>';return`<span class="smoney">$${v.toLocaleString()}</span>`;}return`<span class="se">${v}</span>`;}
+function fmtTeamTotal(v){if(v===null||v===undefined)return'<span class="sna">—</span>';if(v===0)return'<span class="sna">$0</span>';return`<span class="smoney">$${Number(v).toLocaleString()}</span>`;}
+function numScore(n){const s=getScore(n);if(!s||isWD(n))return 0;const v=parseInt(s.tp);return isNaN(v)?0:v;}
+function num(n){return calcPrizeMoney(n);}
 function calcTeam(p){const sc=[...p.picks];let t=0,ua=false;for(const g of sc){if(isWD(g)&&!ua){t+=num(p.alternate);ua=true;}else t+=num(g);}return{t,ua};}
 const hasScores=()=>Object.keys(scores).length>0;
+
+// ── Prize money (2025 Masters actuals — update when 2026 purse announced) ──
+const MASTERS_PURSE=21000000;
+const MASTERS_PAYOUTS=[
+  4200000,2268000,1428000,1008000,840000,756000,703500,651000,609000,567000,  // 1-10
+  525000,483000,441000,399000,378000,357000,336000,315000,294000,273000,       // 11-20
+  252000,235200,218400,201600,184800,168000,161700,155400,149100,142800,       // 21-30
+  136500,130200,123900,118650,113400,108150,102900,98700,94500,90300,          // 31-40
+  86100,81900,77700,73500,69300,65100,60900,57540,54600,52920                  // 41-50
+];
+function parsePos(posStr){
+  if(!posStr)return null;
+  const s=String(posStr).trim();
+  const tied=s.startsWith('T');
+  const n=parseInt(tied?s.slice(1):s);
+  if(isNaN(n)||n<1)return null;
+  return{pos:n,tied};
+}
+function calcPrizeMoney(name){
+  const s=getScore(name);
+  if(!s)return 0;
+  if(isWD(name)||isCut(name))return 0;
+  const parsed=parsePos(s.pos);
+  if(!parsed)return 0;
+  const{pos,tied}=parsed;
+  if(pos>MASTERS_PAYOUTS.length)return 0;
+  if(!tied)return MASTERS_PAYOUTS[pos-1];
+  // Ties: count golfers sharing this position, average their payout slots
+  let numTied=0;
+  for(const[,sc]of Object.entries(scores)){
+    if(sc.st==='WD'||sc.st==='CUT')continue;
+    const p=parsePos(sc.pos);
+    if(p&&p.pos===pos)numTied++;
+  }
+  if(numTied<2)numTied=2;
+  let totalPayout=0;
+  for(let i=pos-1;i<pos-1+numTied&&i<MASTERS_PAYOUTS.length;i++)totalPayout+=MASTERS_PAYOUTS[i];
+  return Math.round(totalPayout/numTied);
+}
 
 // ── Win probability ─────────────────────────────────────
 function normalCDF(x){
@@ -709,11 +764,11 @@ function calcWinProbs(ranked){
   const n=ranked.length;if(n===0)return[];
   if(tourneyStatus==='final')return ranked.map((_,i)=>i===0?1:0);
   const remRounds=Math.max(4-currentRound,0.5);
-  const teamSigma=Math.sqrt(21)*2.5;
+  const teamSigma=300000; // per-round dollar volatility for 21-golfer team
   const remSigma=Math.sqrt(remRounds)*teamSigma;
   if(remSigma===0)return ranked.map((_,i)=>i===0?1:0);
   const leader=ranked[0].total;
-  const raw=ranked.map(p=>{const gap=leader-p.total;return normalCDF(gap/remSigma);});
+  const raw=ranked.map(p=>{const gap=p.total-leader;return normalCDF(gap/remSigma);});
   const sum=raw.reduce((a,b)=>a+b,0);
   return raw.map(r=>sum>0?r/sum:1/n);
 }
@@ -758,8 +813,14 @@ function parseESPN(data){
 function loadDemo(){
   const pl=["Scottie Scheffler","Rory McIlroy","Collin Morikawa","Viktor Hovland","Justin Thomas","Brooks Koepka","Jon Rahm","Xander Schauffele","Hideki Matsuyama","Jordan Spieth","Tommy Fleetwood","Shane Lowry","Patrick Cantlay","Sam Burns","Tyrrell Hatton","Russell Henley","Ludvig Åberg","Bryson DeChambeau","Wyndham Clark","Cameron Young","Adam Scott","Max Homa","Matt Fitzpatrick"];
   const sc=[-12,-10,-9,-8,-7,-6,-6,-5,-4,-4,-3,-3,-2,-2,-1,-1,0,0,1,2,3,4,5];
-  pl.forEach((p,i)=>{scores[p]={tp:sc[i]??5,st:'',thru:'F'};});
-  tourneyStatus='demo';roundLabel='Sample Data';
+  // Assign positions (handling ties for demo)
+  let pos=1;
+  for(let i=0;i<pl.length;i++){
+    if(i>0&&sc[i]!==sc[i-1])pos=i+1;
+    const tied=i<pl.length-1&&sc[i]===sc[i+1]||i>0&&sc[i]===sc[i-1];
+    scores[pl[i]]={tp:sc[i]??5,st:'',thru:'F',pos:(tied?'T':'')+pos};
+  }
+  tourneyStatus='demo';roundLabel='Sample Data';buildNameMap();
 }
 
 // ── Picks (from backend-synced JSON) ─────────────────────
@@ -778,18 +839,20 @@ async function fetchPicks(){
 // ── Render standings ─────────────────────────────────────
 function renderStandings(){
   const el=document.getElementById('standings-container');
-  const ranked=liveParts.map(p=>{const{t,ua}=calcTeam(p);return{...p,total:t,ua};}).sort((a,b)=>a.total-b.total);
+  const ranked=liveParts.map(p=>{const{t,ua}=calcTeam(p);return{...p,total:t,ua};}).sort((a,b)=>b.total-a.total);
   document.getElementById('entry-count').textContent=ranked.length;
-  document.getElementById('pot-total').textContent='$'+(ranked.length*120);
+  const pot=ranked.length*120;const payout1st=pot-500;const payout2nd=500;
+  document.getElementById('pot-total').textContent='$'+pot;
   const winProbs=hasScores()?calcWinProbs(ranked):[];
-  let h='<table class="t"><thead><tr><th style="width:50px">Pos</th><th class="L">Participant</th><th>Score</th><th>Win %</th></tr></thead><tbody>';
+  let h='<table class="t"><thead><tr><th style="width:50px">Pos</th><th class="L">Participant</th><th>Prize $</th><th>Win %</th></tr></thead><tbody>';
   ranked.forEach((p,i)=>{
     const pos=i+1,medal=pos===1?'🥇':pos===2?'🥈':pos===3?'🥉':`<span class="rank-n">${pos}</span>`,exp=expanded.has(i);
     const wp=winProbs[i];
     const wpTxt=hasScores()?`<span class="wp${wp>=0.25?' wp-hot':wp>=0.10?' wp-warm':''}">${(wp*100).toFixed(1)}%</span>`:'<span class="sna">—</span>';
+    const payoutTag=pos===1?`<span class="payout-tag">$${payout1st.toLocaleString()}</span>`:pos===2?`<span class="payout-tag">$${payout2nd}</span>`:'';
     h+=`<tr class="pr${exp?' expanded':''}" onclick="toggleRow(${i})">`;
-    h+=`<td>${medal}</td><td class="L"><span class="p-name">${esc(p.name)}</span><span class="chev${exp?' open':''}">▼</span></td>`;
-    h+=`<td><span class="tot${pos===1&&hasScores()?' lead':''}">${hasScores()?fmt(p.total):'<span class="sna">—</span>'}</span>${p.ua?'<span class="alt-in">ALT IN</span>':''}</td>`;
+    h+=`<td>${medal}</td><td class="L"><span class="p-name">${esc(p.name)}</span>${payoutTag}<span class="chev${exp?' open':''}">▼</span></td>`;
+    h+=`<td><span class="tot${pos===1&&hasScores()?' lead':''}">${hasScores()?fmtTeamTotal(p.total):'<span class="sna">—</span>'}</span>${p.ua?'<span class="alt-in">ALT IN</span>':''}</td>`;
     h+=`<td>${wpTxt}</td></tr>`;
     if(exp)h+=`<tr class="squad-tr"><td colspan="4">${buildSquad(p)}</td></tr>`;
   });
@@ -973,13 +1036,13 @@ function renderStats(){
   let liveHtml='';
   if(hasScores()){
     const golferVal=Object.entries(freq).filter(([g])=>!isWD(g)).map(([g,count])=>{const s=num(g);return{golfer:g,count,score:s,impact:s*count};});
-    const best=golferVal.slice().sort((a,b)=>a.impact-b.impact)[0];
-    const worst=golferVal.slice().sort((a,b)=>b.impact-a.impact)[0];
-    const outlier=golferVal.filter(g=>g.count===1).sort((a,b)=>a.score-b.score)[0];
+    const best=golferVal.slice().sort((a,b)=>b.impact-a.impact)[0];
+    const worst=golferVal.slice().sort((a,b)=>a.impact-b.impact)[0];
+    const outlier=golferVal.filter(g=>g.count===1).sort((a,b)=>b.score-a.score)[0];
     liveHtml='<div class="stats-full"><div class="sec-lbl">Live Tournament Stats</div><div class="live-stats-grid">';
-    if(best)liveHtml+=`<div class="live-stat-card"><div class="live-stat-label">Best Pick</div><div class="live-stat-golfer">${esc(best.golfer)}</div><div class="live-stat-score">${fmt(best.score)}</div><div class="live-stat-detail">Picked by ${best.count}/${totalParts} · Total impact: ${fmt(best.impact)}</div></div>`;
-    if(worst)liveHtml+=`<div class="live-stat-card"><div class="live-stat-label">Worst Pick</div><div class="live-stat-golfer">${esc(worst.golfer)}</div><div class="live-stat-score">${fmt(worst.score)}</div><div class="live-stat-detail">Picked by ${worst.count}/${totalParts} · Total impact: ${fmt(worst.impact)}</div></div>`;
-    if(outlier)liveHtml+=`<div class="live-stat-card"><div class="live-stat-label">Most Valuable Outlier</div><div class="live-stat-golfer">${esc(outlier.golfer)}</div><div class="live-stat-score">${fmt(outlier.score)}</div><div class="live-stat-detail">Only picked by ${esc(liveParts.find(p=>p.picks.includes(outlier.golfer))?.name||'?')}</div></div>`;
+    if(best)liveHtml+=`<div class="live-stat-card"><div class="live-stat-label">Most Valuable Pick</div><div class="live-stat-golfer">${esc(best.golfer)}</div><div class="live-stat-score">${fmtMoney(best.score)}</div><div class="live-stat-detail">Picked by ${best.count}/${totalParts} · Total impact: ${fmtMoney(best.impact)}</div></div>`;
+    if(worst)liveHtml+=`<div class="live-stat-card"><div class="live-stat-label">Least Valuable Pick</div><div class="live-stat-golfer">${esc(worst.golfer)}</div><div class="live-stat-score">${fmtMoney(worst.score)}</div><div class="live-stat-detail">Picked by ${worst.count}/${totalParts} · Total impact: ${fmtMoney(worst.impact)}</div></div>`;
+    if(outlier)liveHtml+=`<div class="live-stat-card"><div class="live-stat-label">Most Valuable Outlier</div><div class="live-stat-golfer">${esc(outlier.golfer)}</div><div class="live-stat-score">${fmtMoney(outlier.score)}</div><div class="live-stat-detail">Only picked by ${esc(liveParts.find(p=>p.picks.includes(outlier.golfer))?.name||'?')}</div></div>`;
     liveHtml+='</div></div>';
   }
 
@@ -1175,17 +1238,17 @@ function renderCutTracker(){
 // ════════════════════════════════════════════════════════
 function renderValuePicks(){
   if(!hasScores()) return'';
-  // Find golfers whose score position is much better than their odds position
+  // Find golfers earning much more prize money than their odds implied
   const oddsEntries=Object.entries(ODDS).map(([n,o])=>({name:n,odds:parseInt(o)||99999})).sort((a,b)=>a.odds-b.odds);
   const oddsRank={};oddsEntries.forEach((e,i)=>oddsRank[e.name]=i+1);
-  const scored=Object.entries(scores).filter(([,s])=>s.st!=='WD'&&s.st!=='CUT'&&!isNaN(parseInt(s.tp))).map(([n,s])=>({name:n,score:parseInt(s.tp)})).sort((a,b)=>a.score-b.score);
-  const scoreRank={};scored.forEach((e,i)=>scoreRank[e.name]=i+1);
+  const moneyList=Object.entries(scores).filter(([n,s])=>s.st!=='WD'&&s.st!=='CUT').map(([n])=>({name:n,money:calcPrizeMoney(n)})).filter(g=>g.money>0).sort((a,b)=>b.money-a.money);
+  const moneyRank={};moneyList.forEach((e,i)=>moneyRank[e.name]=i+1);
 
-  const values=scored.filter(g=>oddsRank[g.name]&&oddsRank[g.name]>15).map(g=>{
-    const oRank=oddsRank[g.name]||scored.length;
-    const sRank=scoreRank[g.name]||scored.length;
-    const delta=oRank-sRank;
-    return{...g,oddsRank:oRank,scoreRank:sRank,delta,odds:ODDS[g.name]||''};
+  const values=moneyList.filter(g=>oddsRank[g.name]&&oddsRank[g.name]>15).map(g=>{
+    const oRank=oddsRank[g.name]||moneyList.length;
+    const mRank=moneyRank[g.name]||moneyList.length;
+    const delta=oRank-mRank;
+    return{...g,oddsRank:oRank,moneyRank:mRank,delta,odds:ODDS[g.name]||''};
   }).filter(g=>g.delta>10).sort((a,b)=>b.delta-a.delta).slice(0,8);
 
   if(values.length===0) return'<div class="value-empty">No standout value picks yet — check back as the tournament progresses.</div>';
@@ -1194,8 +1257,8 @@ function renderValuePicks(){
     const owners=liveParts.filter(p=>p.picks.includes(v.name)).map(p=>p.name);
     html+=`<div class="value-card"><div class="value-golfer">${esc(v.name)}</div>`;
     html+=`<div class="value-odds ${oddsColor(v.odds)}">${esc(v.odds)} (ranked #${v.oddsRank} in odds)</div>`;
-    html+=`<div class="value-score">${fmt(v.score)}</div>`;
-    html+=`<div class="value-detail">Scoring rank: #${v.scoreRank} · Outperforming by ${v.delta} spots</div>`;
+    html+=`<div class="value-score">${fmtMoney(v.money)}</div>`;
+    html+=`<div class="value-detail">Prize money rank: #${v.moneyRank} · Outperforming by ${v.delta} spots</div>`;
     if(owners.length>0) html+=`<div class="value-detail">Picked by: ${owners.map(n=>esc(n)).join(', ')}</div>`;
     else html+=`<div class="value-detail" style="color:var(--red)">Not picked by anyone!</div>`;
     html+=`<div class="value-badge">🔥 Value Pick</div></div>`;
@@ -1207,7 +1270,7 @@ function renderValuePicks(){
 // ██  SHARE CARD  ██
 // ════════════════════════════════════════════════════════
 function generateShareCard(pIndex){
-  const ranked=liveParts.map(p=>{const{t,ua}=calcTeam(p);return{...p,total:t,ua};}).sort((a,b)=>a.total-b.total);
+  const ranked=liveParts.map(p=>{const{t,ua}=calcTeam(p);return{...p,total:t,ua};}).sort((a,b)=>b.total-a.total);
   const p=ranked[pIndex];if(!p)return;
   const pos=pIndex+1;
   const W=600;
@@ -1233,13 +1296,13 @@ function generateShareCard(pIndex){
   ctx.fillText(`${pos}${ordinal} Place`,W/2,72);
   ctx.font='bold 20px Arial';ctx.fillStyle='#F2C55C';
   ctx.fillText(p.name,W/2,100);
-  // Score
-  ctx.font='bold 40px Georgia';
-  const scoreStr=hasScores()?(p.total<0?''+p.total:p.total===0?'E':'+'+p.total):'—';
-  ctx.fillStyle=p.total<0?'#FF4444':p.total===0?'#fff':'#00875F';
+  // Total prize money
+  ctx.font='bold 36px Georgia';
+  const scoreStr=hasScores()?'$'+p.total.toLocaleString():'—';
+  ctx.fillStyle=p.total>0?'#66BB6A':'#fff';
   ctx.fillText(scoreStr,W/2,152);
   ctx.fillStyle='rgba(255,255,255,0.4)';ctx.font='10px Arial';
-  ctx.fillText('TOTAL SCORE TO PAR',W/2,168);
+  ctx.fillText('TOTAL PRIZE MONEY',W/2,168);
   // Divider
   ctx.strokeStyle='rgba(242,197,92,0.3)';ctx.lineWidth=1;
   ctx.beginPath();ctx.moveTo(30,182);ctx.lineTo(W-30,182);ctx.stroke();
@@ -1251,11 +1314,11 @@ function generateShareCard(pIndex){
   ctx.fillText('WINNER PICK',30,y);
   y+=16;
   const ws=getScore(p.winner);const wo=ODDS[p.winner]||'';
-  const wScore=hasScores()&&ws?parseInt(ws.tp):null;
+  const wMoney=calcPrizeMoney(p.winner);
   ctx.fillStyle='#F2C55C';ctx.font='bold 14px Arial';
   ctx.fillText(`🏆  ${p.winner}`,30,y);
   if(wo){ctx.fillStyle='rgba(255,255,255,0.35)';ctx.font='11px Arial';ctx.fillText(wo,ctx.measureText(`🏆  ${p.winner}`).width+40,y);}
-  if(wScore!==null){ctx.textAlign='right';ctx.fillStyle=wScore<0?'#FF4444':wScore===0?'#ccc':'#00875F';ctx.font='bold 13px Arial';ctx.fillText(wScore<0?''+wScore:wScore===0?'E':'+'+wScore,W-30,y);ctx.textAlign='left';}
+  if(hasScores()){ctx.textAlign='right';ctx.fillStyle=wMoney>0?'#66BB6A':'#999';ctx.font='bold 13px Arial';ctx.fillText(wMoney>0?'$'+wMoney.toLocaleString():'$0',W-30,y);ctx.textAlign='left';}
   y+=20;
 
   // Divider
@@ -1283,20 +1346,13 @@ function generateShareCard(pIndex){
     ctx.fillStyle=g.wd?'#FF4444':g.cut?'#999':g.isWinner?'#F2C55C':'#d0d0d0';
     ctx.textAlign='left';
     ctx.fillText(displayName,x,py);
-    // Score
-    const sc=hasScores()?g.score:null;
-    if(sc!==null&&!g.wd){
-      ctx.textAlign='right';
-      ctx.fillStyle=sc<0?'#FF4444':sc===0?'#888':'#00875F';
-      ctx.font='bold 11px Arial';
-      ctx.fillText(sc<0?''+sc:sc===0?'E':'+'+sc,x+colW-8,py);
+    // Prize money
+    if(hasScores()){
+      ctx.textAlign='right';ctx.font='bold 10px Arial';
+      if(g.wd){ctx.fillStyle='#FF4444';ctx.fillText('WD',x+colW-8,py);}
+      else if(g.cut){ctx.fillStyle='#999';ctx.fillText('CUT',x+colW-8,py);}
+      else{const m=g.score;ctx.fillStyle=m>0?'#66BB6A':'#999';ctx.fillText(m>0?'$'+(m>=1000000?(m/1000000).toFixed(1)+'M':(m/1000).toFixed(0)+'K'):'$0',x+colW-8,py);}
       ctx.textAlign='left';
-    }else if(g.wd){
-      ctx.textAlign='right';ctx.fillStyle='#FF4444';ctx.font='bold 10px Arial';
-      ctx.fillText('WD',x+colW-8,py);ctx.textAlign='left';
-    }else if(g.cut){
-      ctx.textAlign='right';ctx.fillStyle='#999';ctx.font='bold 10px Arial';
-      ctx.fillText('CUT',x+colW-8,py);ctx.textAlign='left';
     }
   });
   y+=rows*rowH+10;
@@ -1307,12 +1363,12 @@ function generateShareCard(pIndex){
   ctx.fillStyle='rgba(255,255,255,0.35)';ctx.font='bold 10px Arial';ctx.textAlign='left';
   ctx.fillText('ALTERNATE',30,y);
   y+=16;
-  const altScore=hasScores()?num(p.alternate):null;
+  const altMoney=hasScores()?num(p.alternate):null;
   ctx.fillStyle='#aaa';ctx.font='12px Arial';
   ctx.fillText(p.alternate,30,y);
   const ao=ODDS[p.alternate]||'';
   if(ao){ctx.fillStyle='rgba(255,255,255,0.25)';ctx.font='11px Arial';ctx.fillText(ao,ctx.measureText(p.alternate).width+40,y);}
-  if(altScore!==null){ctx.textAlign='right';ctx.fillStyle=altScore<0?'#FF4444':altScore===0?'#888':'#00875F';ctx.font='bold 11px Arial';ctx.fillText(altScore<0?''+altScore:altScore===0?'E':'+'+altScore,W-30,y);ctx.textAlign='left';}
+  if(altMoney!==null){ctx.textAlign='right';ctx.fillStyle=altMoney>0?'#66BB6A':'#999';ctx.font='bold 11px Arial';ctx.fillText(altMoney>0?'$'+altMoney.toLocaleString():'$0',W-30,y);ctx.textAlign='left';}
 
   // Footer
   ctx.textAlign='center';ctx.fillStyle='rgba(255,255,255,0.15)';ctx.font='9px Arial';
@@ -1342,7 +1398,7 @@ function showToast(msg){
 const _origBuildSquad=buildSquad;
 buildSquad=function(p){
   let html=_origBuildSquad(p);
-  const ranked=liveParts.map(pp=>{const{t,ua}=calcTeam(pp);return{...pp,total:t,ua};}).sort((a,b)=>a.total-b.total);
+  const ranked=liveParts.map(pp=>{const{t,ua}=calcTeam(pp);return{...pp,total:t,ua};}).sort((a,b)=>b.total-a.total);
   const idx=ranked.findIndex(r=>r.name===p.name);
   if(idx>=0) html+=`<div style="padding:0 18px 14px"><button class="share-btn" onclick="event.stopPropagation();generateShareCard(${idx})">📤 Share Card</button></div>`;
   return html;
